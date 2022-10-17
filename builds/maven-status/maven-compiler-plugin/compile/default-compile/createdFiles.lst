@@ -1,0 +1,16 @@
+dev\mrflyn\vectunes\PresenceListener.class
+dev\mrflyn\vectunes\VecTunesAudioSendHandler.class
+dev\mrflyn\vectunes\VecTunes$1.class
+dev\mrflyn\vectunes\VecTunesTrackManager.class
+dev\mrflyn\vectunes\commandlisteners\ButtonListener.class
+dev\mrflyn\vectunes\searchmanagers\SpotifySearchManager.class
+dev\mrflyn\vectunes\Bot.class
+dev\mrflyn\vectunes\StringUtil.class
+dev\mrflyn\vectunes\commandlisteners\PlayCommandListener.class
+dev\mrflyn\vectunes\searchmanagers\YouTubeSearchManager.class
+dev\mrflyn\vectunes\VecTunes.class
+dev\mrflyn\vectunes\ConfigManager.class
+dev\mrflyn\vectunes\FavouriteTrack.class
+dev\mrflyn\vectunes\GUIManager.class
+dev\mrflyn\vectunes\VecTunes$2.class
+dev\mrflyn\vectunes\VecTunesTrackManager$1.class
