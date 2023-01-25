@@ -2,11 +2,8 @@
 package dev.mrflyn.vectunes;
 
 import com.github.topisenpai.lavasrc.spotify.SpotifyAudioTrack;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import dev.mrflyn.vectunes.Bot;
 import dev.mrflyn.vectunes.FavouriteTrack;
@@ -14,6 +11,7 @@ import dev.mrflyn.vectunes.VecTunes;
 import dev.mrflyn.vectunes.VecTunesTrackManager;
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
 import java.awt.Color;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +31,8 @@ import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class GUIManager {
     public static HashMap<String, GUIManager> registeredManagers = new HashMap<>();
@@ -42,6 +42,7 @@ public class GUIManager {
     private long embedID = 0L;
     private String uuid;
     private boolean first = true;
+    Gson gson = new Gson();
 
     public GUIManager(VecTunesTrackManager trackManager, long channelID, long guildID) {
         this.trackManager = trackManager;
@@ -68,6 +69,7 @@ public class GUIManager {
             Button playPause = this.trackManager.getPlayer().isPaused() ? this.parseButton("play") : this.parseButton("pause");
             Button stop = this.parseButton("stop");
             Button autoplay = this.trackManager.isAutoPlay() ? this.parseButton("autoplay_on") : this.parseButton("autoplay_off");
+            Button shuffle = this.trackManager.isShuffle() ? this.parseButton("shuffle_on") : this.parseButton("shuffle_off");
             Button forward = this.parseButton("forward");
             Button rewind = this.parseButton("rewind");
             Button skip = this.parseButton("skip");
@@ -79,8 +81,13 @@ public class GUIManager {
                 if (this.trackManager.getPlayer().getPlayingTrack() == null) {
                     return;
                 }
-                ((MessageCreateAction)channel.sendMessageEmbeds(embed, new MessageEmbed[0]).addComponents(ActionRow.of(skip, stop, queueLoop, songLoop, favourite), ActionRow.of(rewind, playPause, forward, autoplay, volume))).queue(message -> {
+                channel.sendMessageEmbeds(embed).addComponents(
+                        ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
+                        ActionRow.of(rewind, playPause, forward, autoplay, volume),
+                        ActionRow.of(shuffle))
+                        .queue(message -> {
                     this.embedID = message.getIdLong();
+                    update();
                 });
                 this.first = false;
                 return;
@@ -88,7 +95,12 @@ public class GUIManager {
             if (this.embedID == 0L) {
                 return;
             }
-            channel.editMessageComponentsById(this.embedID, ActionRow.of(skip, stop, queueLoop, songLoop), ActionRow.of(rewind, playPause, forward, autoplay, volume)).queue(success -> {}, t -> {
+            channel.editMessageComponentsById(this.embedID,
+                    ActionRow.of(skip, stop, queueLoop, songLoop),
+                    ActionRow.of(rewind, playPause, forward, autoplay, volume),
+                    ActionRow.of(shuffle))
+
+                    .queue(success -> {}, t -> {
                 if (t instanceof ErrorResponseException && ((ErrorResponseException)t).getErrorCode() == 10008) {
                     return;
                 }
@@ -122,7 +134,14 @@ public class GUIManager {
         if (channel == null) {
             return;
         }
-        channel.sendMessageEmbeds(embed, new MessageEmbed[0]).queue();
+        channel.sendMessageEmbeds(embed).queue();
+        if (this.embedID!=0L)
+        channel.deleteMessageById(this.embedID).queue(success -> {
+            this.embedID=0L;
+            this.first = true;
+            update();
+        }, Throwable::printStackTrace);
+
     }
 
     public void error(String reason) {
@@ -143,6 +162,8 @@ public class GUIManager {
             return;
         }
         channel.deleteMessageById(this.embedID).queue();
+        this.embedID=0L;
+        this.first = true;
     }
 
     public void onButtonClick(ButtonInteractionEvent event, String id) {
@@ -159,6 +180,11 @@ public class GUIManager {
             case "autoplay_off": 
             case "autoplay_on": {
                 this.trackManager.toggleAutoPlay();
+                break;
+            }
+            case "shuffle_off":
+            case "shuffle_on": {
+                this.trackManager.toggleShuffle();
                 break;
             }
             case "forward": {
@@ -231,7 +257,9 @@ public class GUIManager {
 
     private Button parseButton(String name) {
         String emoji = VecTunes.configManager.getButtonConfig().getString(name + ".emoji");
-        String displayName = VecTunes.configManager.getButtonConfig().getString(name + ".display_name");
+        String displayName = VecTunes.configManager.getButtonConfig().getString(name + ".display_name")
+                .replace("%volume%", this.trackManager.getPlayer().getVolume()+"")
+                ;
         String type = VecTunes.configManager.getButtonConfig().getString(name + ".type");
         return Button.of(ButtonStyle.valueOf(type), this.uuid + ":" + name, displayName, Emoji.fromFormatted(emoji));
     }
@@ -240,7 +268,7 @@ public class GUIManager {
         try {
             String json = VecTunes.EMBED_JSONS.get(embedFile);
             String title = "NONE";
-            Object thumbnail = "https://cdn.discordapp.com/icons/928525879087362050/d348f37279e01d75cbb7c09bdf39242a.webp?size=100";
+            String thumbnail =null;
             String artist = "NONE";
             String duration = "NONE";
             String requester = "NONE";
@@ -257,8 +285,20 @@ public class GUIManager {
                     thumbnail = ((SpotifyAudioTrack)currTrack).getArtworkURL();
                 }
             }
-            json = json.replace("%currSong%", title).replace("%songCoverImg%", (CharSequence)thumbnail).replace("%artist%", artist).replace("%duration%", duration).replace("%channel%", this.trackManager.getAudioChannelName()).replace("%requester%", requester).replace("%volume%", "" + this.trackManager.getPlayer().getVolume()).replace("%volumebar%", this.getVolumeBar()).replace("%currSongUrl%", url).replace("%queue%", this.trackManager.getRemainingQueueString());
-            return this.jsonToEmbed(JsonParser.parseString(json).getAsJsonObject());
+            if (thumbnail==null)thumbnail = "https://cdn.discordapp.com/icons/928525879087362050/d348f37279e01d75cbb7c09bdf39242a.webp?size=100";
+            String queue = " "+StringEscapeUtils.escapeJson(this.trackManager.getRemainingQueueString().trim());
+            queue = queue.length() > 900?queue.substring(0, 900) + "..." : queue;
+            json = json.replace("%currSong%", StringEscapeUtils.escapeJson(title.trim()))
+                    .replace("%songCoverImg%", StringEscapeUtils.escapeJson(thumbnail.trim()))
+                    .replace("%artist%", StringEscapeUtils.escapeJson(artist.trim()))
+                    .replace("%duration%", StringEscapeUtils.escapeJson(duration.trim()))
+                    .replace("%channel%", StringEscapeUtils.escapeJson(this.trackManager.getAudioChannelName().trim()))
+                    .replace("%requester%", StringEscapeUtils.escapeJson(requester.trim()))
+                    .replace("%volume%", StringEscapeUtils.escapeJson(("" + this.trackManager.getPlayer().getVolume()).trim()))
+                    .replace("%volumebar%", StringEscapeUtils.escapeJson(this.getVolumeBar().trim()))
+                    .replace("%currSongUrl%", StringEscapeUtils.escapeJson(url.trim()))
+                    .replace("%queue%", queue);
+            return jsonToEmbed(gson.fromJson(json, JsonObject.class));
         }
         catch (Exception e) {
             e.printStackTrace();

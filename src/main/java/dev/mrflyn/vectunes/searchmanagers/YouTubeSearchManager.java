@@ -1,6 +1,7 @@
 
 package dev.mrflyn.vectunes.searchmanagers;
 
+import com.github.topisenpai.lavasrc.spotify.SpotifyCredentials;
 import dev.mrflyn.vectunes.FavouriteTrack;
 import dev.mrflyn.vectunes.StringUtil;
 import io.sfrei.tracksearch.clients.TrackSearchClient;
@@ -20,6 +21,7 @@ import java.util.List;
 public class YouTubeSearchManager {
     private static HashMap<String, String> CACHED_SEARCHES = new HashMap<>();
     public static HashMap<Long, List<FavouriteTrack>> FAVOURITES = new HashMap<>();
+    public static HashMap<Long, SpotifyCredentials> GUILD_SPOTIFY_CREDENTIALS = new HashMap<>();
     private TrackSearchClient<YouTubeTrack> explicitClient = new YouTubeClient();
 
     public static void saveAutoCompletes() {
@@ -44,6 +46,16 @@ public class YouTubeSearchManager {
             oos.close();
             fos.close();
             System.out.println("Saved Favourites!");
+            file = new File("SpotifyCredentials.dat");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            fos = new FileOutputStream("SpotifyCredentials.dat");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(GUILD_SPOTIFY_CREDENTIALS);
+            oos.close();
+            fos.close();
+            System.out.println("Saved SpotifyCredentials!");
         }
         catch (Exception ioe) {
             ioe.printStackTrace();
@@ -84,6 +96,25 @@ public class YouTubeSearchManager {
             System.out.println("Loaded Favourites!");
         }
         catch (Exception ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    public static void readSpotifyCredentials() {
+        try {
+            File file = new File("SpotifyCredentials.dat");
+            if (!file.exists()) {
+                file.createNewFile();
+                YouTubeSearchManager.saveAutoCompletes();
+            }
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            GUILD_SPOTIFY_CREDENTIALS = (HashMap) ois.readObject();
+            ois.close();
+            fis.close();
+
+            System.out.println("Loaded SpotifyCredentials!");
+        } catch (Exception ioe) {
             ioe.printStackTrace();
         }
     }

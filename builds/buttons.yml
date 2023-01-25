@@ -1,0 +1,64 @@
+play:
+  emoji: <:Play:1028291915852042300>
+  display_name: ''
+  type: SECONDARY
+pause:
+  emoji: <:Pause:1028291907291463710>
+  display_name: ''
+  type: SECONDARY
+stop:
+  emoji: <:Stop:1028291878589825145>
+  display_name: ''
+  type: SECONDARY
+autoplay_off:
+  emoji: <:AutoPlay_OFF:1028291889436303430>
+  display_name: 'Autoplay: Off'
+  type: SECONDARY
+autoplay_on:
+  emoji: <:AutoPlay_ON:1028291891575402537>
+  display_name: 'Autoplay: On'
+  type: SUCCESS
+forward:
+  emoji: <:Forward:1028291900618317915>
+  display_name: +10s
+  type: SECONDARY
+rewind:
+  emoji: <:Rewind:1028291920440602685>
+  display_name: -10s
+  type: SECONDARY
+skip:
+  emoji: <:Skip:1028291922349011005>
+  display_name: ''
+  type: SECONDARY
+queue_loop_off:
+  emoji: <:LoopOff:1028291880364019733>
+  display_name: 'QueueLoop: Off'
+  type: SECONDARY
+queue_loop_on:
+  emoji: <:LoopOn:1028291911687078008>
+  display_name: 'QueueLoop: On'
+  type: SUCCESS
+song_loop_off:
+  emoji: <:LoopQueue:1028291913813606420>
+  display_name: 'TrackLoop: Off'
+  type: SECONDARY
+song_loop_on:
+  emoji: <:LoopQueue:1028291913813606420>
+  display_name: 'TrackLoop: On'
+  type: SUCCESS
+volume:
+  emoji: <:Volume:1028291884692553810>
+  display_name: '%volume%%'
+  type: SECONDARY
+favourite:
+  emoji: <:FavoriteSong:1028291898483425300>
+  display_name: ''
+  type: SECONDARY
+shuffle_on:
+  emoji: <:Shuffle:1034499896507641956>
+  display_name: 'Shuffle: On'
+  type: SUCCESS
+shuffle_off:
+  emoji: <:Shuffle:1034499896507641956>
+  display_name: 'Shuffle: Off'
+  type: SECONDARY

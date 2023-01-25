@@ -1,0 +1,7 @@
+token: MTAyNzkyMTkyNTU3MTM0NjQ4Mw.GFrdVR.NrK4MSYhbsSFL6nQhovA8Ubc0kt_VW-AZgpsSI
+debug: true
+spotify:
+  enabled: true
+  client_id: 1613db80ba9f4790bba00ad65841cb93
+  client_secret: 561dbd04c99a430891926de9d2a3c007
+  country_code: US

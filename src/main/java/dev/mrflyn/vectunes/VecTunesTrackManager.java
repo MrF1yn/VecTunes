@@ -10,20 +10,15 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
-import dev.mrflyn.vectunes.Bot;
-import dev.mrflyn.vectunes.GUIManager;
-import dev.mrflyn.vectunes.VecTunes;
+import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
 import io.sfrei.tracksearch.tracks.YouTubeTrack;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+
+import java.util.*;
+
 import net.dv8tion.jda.api.entities.Guild;
 
-public class VecTunesTrackManager
-extends AudioEventAdapter {
-    private Queue<AudioTrack> trackQueue;
+public class VecTunesTrackManager extends AudioEventAdapter {
+    private LinkedList<AudioTrack> trackQueue;
     private List<AudioTrack> persistentTrackQueue;
     private HashMap<String, Long> TRACK_REQUESTER = new HashMap<>();
     private List<String> requestedTracks = new ArrayList<String>();
@@ -33,8 +28,10 @@ extends AudioEventAdapter {
     private boolean queueLoop;
     private boolean songLoop;
     private boolean autoPlay;
+    private boolean shuffle;
     private long guildID;
     private GUIManager guiManager;
+    Random random = new Random();
 
     public VecTunesTrackManager(AudioPlayer player, long channelID, long guildID, long commandChannelID) {
         this.channelID = channelID;
@@ -81,6 +78,10 @@ extends AudioEventAdapter {
         return this.autoPlay;
     }
 
+    public boolean isShuffle() {
+        return shuffle;
+    }
+
     public String getRemainingQueueString() {
         StringBuilder s = new StringBuilder(" \n");
         int i = 1;
@@ -110,9 +111,19 @@ extends AudioEventAdapter {
         this.guiManager.update();
     }
 
+    public void toggleShuffle(){
+        this.shuffle = !this.shuffle;
+        this.guiManager.update();
+    }
+
     public void skip() {
         this.player.stopTrack();
-        AudioTrack audio = this.trackQueue.poll();
+        AudioTrack audio = null;
+        if (shuffle){
+            audio = getRandom();
+        }else {
+            audio = this.trackQueue.poll();
+        }
         if (audio != null) {
             this.player.playTrack(audio);
         }
@@ -216,12 +227,19 @@ extends AudioEventAdapter {
         this.guiManager.update();
     }
 
+    private AudioTrack getRandom(){
+        int index = random.nextInt(trackQueue.size());
+        AudioTrack audio  = trackQueue.get(index);
+        trackQueue.remove(index);
+        return audio;
+    }
+
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         this.guiManager.sendSongEndEmbed(track);
         this.requestedTracks.remove(track.getInfo().uri);
         this.guiManager.update();
-        if (endReason == AudioTrackEndReason.STOPPED || endReason == AudioTrackEndReason.REPLACED) {
+        if (endReason == AudioTrackEndReason.STOPPED) {
             return;
         }
         if (this.songLoop) {
@@ -229,7 +247,16 @@ extends AudioEventAdapter {
             VecTunes.log("Looping Song!");
             return;
         }
-        AudioTrack audio = this.trackQueue.poll();
+        AudioTrack audio = null;
+
+        if (!trackQueue.isEmpty()){
+            if (shuffle){
+                audio = getRandom();
+            }else {
+                audio = trackQueue.poll();
+            }
+        }
+
         if (audio == null) {
             VecTunes.log("Queue finished!");
             if (!this.queueLoop && !this.autoPlay) {
@@ -242,16 +269,16 @@ extends AudioEventAdapter {
                 audio = this.trackQueue.poll();
                 VecTunes.log("Looping queue!");
             } else if (this.autoPlay) {
-                if (VecTunes.spotifySearchManager != null) {
+                if (VecTunes.spotifySearchManager != null && YouTubeSearchManager.GUILD_SPOTIFY_CREDENTIALS.containsKey(guildID)) {
                     if (track instanceof SpotifyAudioTrack) {
                         SpotifyAudioTrack spotifyAudioTrack = (SpotifyAudioTrack)track;
-                        for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayList(spotifyAudioTrack)) {
-                            this.queue(tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong());
+                        for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayList(spotifyAudioTrack, guildID)) {
+                            this.queue(guildID+" "+tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong());
                         }
                         return;
                     }
-                    for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author)) {
-                        this.queue(tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong());
+                    for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author, guildID)) {
+                        this.queue(guildID+" "+tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong());
                     }
                     return;
                 }
@@ -267,11 +294,9 @@ extends AudioEventAdapter {
                 return;
             }
         }
-        if (endReason.mayStartNext) {
             player.playTrack(audio);
             VecTunes.log("playing " + audio.getIdentifier());
             return;
-        }
     }
 
     @Override

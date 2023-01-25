@@ -2,6 +2,7 @@
 package dev.mrflyn.vectunes;
 
 import com.github.topisenpai.lavasrc.applemusic.AppleMusicSourceManager;
+import com.github.topisenpai.lavasrc.spotify.SpotifyCredentials;
 import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
 import com.google.gson.JsonParser;
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
@@ -51,6 +52,7 @@ public class VecTunes {
         configManager.init();
         YouTubeSearchManager.readAutoCompletes();
         YouTubeSearchManager.readFavourites();
+        YouTubeSearchManager.readSpotifyCredentials();
         youTubeSearchManager = new YouTubeSearchManager();
         youTubeSearchManager.validateAutoCompletes();
         EMBED_JSONS = new HashMap<>();
@@ -69,17 +71,36 @@ public class VecTunes {
             @Override
             public void run() {
                 while (true) {
-                    String cmd;
-                    switch (cmd = this.sc.nextLine()) {
-                        case "stop": {
+                    String[] fullCmd = this.sc.nextLine().split("#");
+                    switch (fullCmd[0]) {
+                        case "stop":
                             System.exit(0);
-                        }
+                            break;
+                        case "del_spotify":
+                            if (fullCmd.length<2)return;
+                            try{
+                                long guildID = Long.parseLong(fullCmd[1]);
+                                VecTunes.spotifySearchManager.getSpotifySourceManager().unregisterSpotifyCredentials(guildID);
+                                if(YouTubeSearchManager.GUILD_SPOTIFY_CREDENTIALS.containsKey(guildID)) {
+                                    YouTubeSearchManager.GUILD_SPOTIFY_CREDENTIALS.remove(guildID);
+                                    VecTunes.log("Removed SpotifyCreds for guild: " + guildID);
+                                }
+                                VecTunes.log("Not Found!: "+ guildID);
+
+                            }catch (Exception e){
+                                VecTunes.log("Incorrect format!");
+                                return;
+                            }
+                            break;
+                        case "registered_spotify_guilds":
+                            for(long key : YouTubeSearchManager.GUILD_SPOTIFY_CREDENTIALS.keySet()){
+                                VecTunes.log(key);
+                            }
+                            break;
                     }
                 }
             }
         }.start();
-        bot = new Bot(configManager.getMainConfig().getString("token"));
-        bot.enable();
         playerManager = new DefaultAudioPlayerManager();
         playerManager.getConfiguration().setResamplingQuality(AudioConfiguration.ResamplingQuality.HIGH);
         playerManager.registerSourceManager(new YoutubeAudioSourceManager());
@@ -89,15 +110,23 @@ public class VecTunes {
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
         playerManager.registerSourceManager(new BeamAudioSourceManager());
         if (configManager.getMainConfig().getBoolean("spotify.enabled")) {
-            SpotifySourceManager spotifySourceManager = new SpotifySourceManager(null, configManager.getMainConfig().getString("spotify.client_id"), configManager.getMainConfig().getString("spotify.client_secret"), configManager.getMainConfig().getString("spotify.country_code"), playerManager);
+            SpotifySourceManager spotifySourceManager = new SpotifySourceManager(null, playerManager);
+            spotifySourceManager.registerSpotifyCredentials(configManager.getMainConfig().getString("spotify.client_id"),
+                    configManager.getMainConfig().getString("spotify.client_secret"),
+                    configManager.getMainConfig().getString("spotify.country_code"),
+                    -1L
+            );
             playerManager.registerSourceManager(spotifySourceManager);
-            spotifySearchManager = new SpotifySearchManager(configManager.getMainConfig().getString("spotify.client_id"), configManager.getMainConfig().getString("spotify.client_secret"), configManager.getMainConfig().getString("spotify.country_code"), spotifySourceManager);
+
+            spotifySearchManager = new SpotifySearchManager(spotifySourceManager);
         }
         playerManager.registerSourceManager(new AppleMusicSourceManager(null, "us", playerManager));
         playerManager.registerSourceManager(new HttpAudioSourceManager());
         playerManager.registerSourceManager(new LocalAudioSourceManager());
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
+        bot = new Bot(configManager.getMainConfig().getString("token"));
+        bot.enable();
     }
 
     public static <T> void log(T msg) {

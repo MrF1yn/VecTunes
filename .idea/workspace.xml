@@ -5,13 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5f02083-233f-4a66-bbfd-e315932b3519" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/SpotifySetupCommandListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YoutubeMusicSearchManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/VecTunes-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/builds/VecTunes-1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/Bot.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/Bot.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/ConfigManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/ConfigManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/GUIManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/GUIManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/PresenceListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/PresenceListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunes$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunes$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunes$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunes$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunes.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunesTrackManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunesTrackManager$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunesTrackManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/VecTunesTrackManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/commandlisteners/PlayCommandListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/commandlisteners/PlayCommandListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/builds/classes/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/builds/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/builds/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/builds/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/builds/original-VecTunes-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/builds/original-VecTunes-1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/PresenceListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/PresenceListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesTrackManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesTrackManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/PlayCommandListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/PlayCommandListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,6 +70,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.mrflyn.vectunes.commandlisteners" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -41,7 +83,27 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666025865278</updated>
-      <workItem from="1666025870286" duration="1051000" />
+      <workItem from="1666025870286" duration="1740000" />
+      <workItem from="1666094808464" duration="956000" />
+      <workItem from="1666105364811" duration="1159000" />
+      <workItem from="1666353361358" duration="389000" />
+      <workItem from="1666363891521" duration="2867000" />
+      <workItem from="1666371934969" duration="1941000" />
+      <workItem from="1666439573135" duration="4994000" />
+      <workItem from="1666461264172" duration="441000" />
+      <workItem from="1666526830901" duration="1646000" />
+      <workItem from="1666538001993" duration="2894000" />
+      <workItem from="1666545852179" duration="905000" />
+      <workItem from="1666612621074" duration="1773000" />
+      <workItem from="1666698969084" duration="962000" />
+      <workItem from="1666708651773" duration="6926000" />
+      <workItem from="1666779103534" duration="300000" />
+      <workItem from="1666784053576" duration="2842000" />
+      <workItem from="1666797775631" duration="392000" />
+      <workItem from="1666887563644" duration="1096000" />
+      <workItem from="1666890386473" duration="622000" />
+      <workItem from="1666891212062" duration="564000" />
+      <workItem from="1667302630998" duration="6000" />
     </task>
     <servers />
   </component>
@@ -58,5 +120,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

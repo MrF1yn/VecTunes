@@ -1,0 +1,27 @@
+{
+  "color": 6729708,
+  "author": {
+    "name": "Finished Playing: %currSong%",
+    "url": "%currSongUrl%"
+  },
+  "thumbnail": {
+    "url": "%songCoverImg%"
+  },
+  "fields": [
+    {
+      "name": "<:Artist:1028291887343345735>**Artist:**",
+      "value": "> `%artist%`",
+      "inline": false
+    },
+    {
+      "name": "<:Duration:1028291896096854076>**Duration:**",
+      "value": "> `%duration%`",
+      "inline": true
+    },
+    {
+      "name": "<:Requester:1028291918003716117>**Requested By**",
+      "value": "> %requester%",
+      "inline": true
+    }
+  ]
+}

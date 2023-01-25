@@ -8,6 +8,8 @@ import dev.mrflyn.vectunes.VecTunesAudioSendHandler;
 import dev.mrflyn.vectunes.VecTunesTrackManager;
 import java.util.ArrayList;
 import javax.annotation.Nonnull;
+
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -47,12 +49,17 @@ extends ListenerAdapter {
         if (!link.startsWith("https://") && !link.startsWith("http://")) {
             link = VecTunes.youTubeSearchManager.getLinkFromQuery(link);
         }
-        VecTunes.log(link);
         Guild guild = event.getGuild();
-        VoiceChannel vc = (VoiceChannel)((Object)vcState.getChannel());
+        if (link.toLowerCase().contains("spotify.")){
+            link = guild.getIdLong()+" "+link;
+        }
+        VecTunes.log(link);
+        VoiceChannel vc = (VoiceChannel)(vcState.getChannel());
         VecTunes.log(vc.getName());
         event.reply("Searching for your song...").setEphemeral(true).queue();
         AudioManager manager = guild.getAudioManager();
+        if (event.getGuild().getMember(Bot.jda.getSelfUser()).hasPermission(Permission.MANAGE_CHANNEL))
+            vc.getManager().setBitrate(guild.getMaxBitrate()).queue();
         if (vc.getMembers().contains(guild.getMember(Bot.jda.getSelfUser())) && VecTunes.bot.CHANNEL_TO_TUNES.containsKey(vc.getIdLong())) {
             VecTunes.bot.CHANNEL_TO_TUNES.get(vc.getIdLong()).queue(link, member.getIdLong());
             return;
@@ -86,7 +93,7 @@ extends ListenerAdapter {
         }
         ArrayList<Command.Choice> choices = new ArrayList<Command.Choice>();
         String query = event.getFocusedOption().getValue();
-        if (query.startsWith("https://") || query.startsWith("http://")) {
+        if (query.startsWith("https://") || query.startsWith("http://") || query.isEmpty() || query.equals(" ")) {
             return;
         }
         for (String autoCompletes : VecTunes.youTubeSearchManager.getAutoCompletes(query)) {

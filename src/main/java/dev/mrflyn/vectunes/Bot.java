@@ -6,6 +6,8 @@ import dev.mrflyn.vectunes.VecTunesTrackManager;
 import dev.mrflyn.vectunes.commandlisteners.ButtonListener;
 import dev.mrflyn.vectunes.commandlisteners.PlayCommandListener;
 import java.util.HashMap;
+
+import dev.mrflyn.vectunes.commandlisteners.SpotifySetupCommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -38,7 +40,9 @@ public class Bot {
                     .addEventListeners(
                             new PlayCommandListener(),
                             new ButtonListener(),
-                            new PresenceListener())
+                            new PresenceListener(),
+                            new SpotifySetupCommandListener()
+                            )
                     .setActivity(Activity.playing("/play Tunes"))
                     .setChunkingFilter(ChunkingFilter.ALL)
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
@@ -49,7 +53,15 @@ public class Bot {
         catch (Exception e) {
             e.printStackTrace();
         }
-        jda.upsertCommand("play", "play a song with the link.").addOptions(new OptionData(OptionType.STRING, "link-or-name", "Link or Name of the song.", true).setAutoComplete(true)).queue();
+        jda.upsertCommand("play", "play a song with the link.")
+                .addOptions(new OptionData(OptionType.STRING, "link-or-name", "Link or Name of the song.", true)
+                        .setAutoComplete(true)).queue();
+        jda.upsertCommand("spotify_setup", "setup spotify api")
+                .addOptions(
+                        new OptionData(OptionType.STRING, "client-id", "client-id", true),
+                        new OptionData(OptionType.STRING, "client-secret", "client-secret", true),
+                        new OptionData(OptionType.STRING, "country-code", "country-code", true))
+                .queue();
     }
 }
 

@@ -20,9 +20,14 @@ public class ConfigManager {
                 this.mainConfig.createNewFile(true);
                 this.mainConfig.addDefault("token", "<botToken>");
                 this.mainConfig.addDefault("debug", true);
+//                spotify:
+//                enabled: true
+//                client_id: 1613db80ba9f4790bba00ad65841cb93
+//                client_secret: 561dbd04c99a430891926de9d2a3c007
+//                country_code: US
                 this.mainConfig.addDefault("spotify.enabled", true);
-                this.mainConfig.addDefault("spotify.client_id", "<spotifyID");
-                this.mainConfig.addDefault("spotify.client_secret", "<spotifySecret>");
+                this.mainConfig.addDefault("spotify.client_id", "1613db80ba9f4790bba00ad65841cb93");
+                this.mainConfig.addDefault("spotify.client_secret", "561dbd04c99a430891926de9d2a3c007");
                 this.mainConfig.addDefault("spotify.country_code", "US");
                 this.mainConfig.save();
             } else {
@@ -46,6 +51,10 @@ public class ConfigManager {
                 this.buttonConfig.addDefault("song_loop_on.emoji", "<:LoopQueue:1028291913813606420>");
                 this.buttonConfig.addDefault("volume.emoji", "<:Volume:1028291884692553810>");
                 this.buttonConfig.addDefault("favourite.emoji", "<:FavoriteSong:1028291898483425300>");
+                this.buttonConfig.addDefault("shuffle_on.emoji", "<:Shuffle:1034499896507641956>");
+                this.buttonConfig.addDefault("shuffle_off.emoji", "<:Shuffle:1034499896507641956>");
+
+
                 this.buttonConfig.addDefault("play.display_name", "");
                 this.buttonConfig.addDefault("pause.display_name", "");
                 this.buttonConfig.addDefault("stop.display_name", "");
@@ -58,8 +67,12 @@ public class ConfigManager {
                 this.buttonConfig.addDefault("queue_loop_on.display_name", "QueueLoop: On");
                 this.buttonConfig.addDefault("song_loop_off.display_name", "TrackLoop: Off");
                 this.buttonConfig.addDefault("song_loop_on.display_name", "TrackLoop: On");
-                this.buttonConfig.addDefault("volume.display_name", "");
+                this.buttonConfig.addDefault("volume.display_name", "%volume%%");
                 this.buttonConfig.addDefault("favourite.display_name", "");
+                this.buttonConfig.addDefault("shuffle_on.display_name", "Shuffle: On");
+                this.buttonConfig.addDefault("shuffle_off.display_name", "Shuffle: Off");
+
+
                 this.buttonConfig.addDefault("play.type", "SECONDARY");
                 this.buttonConfig.addDefault("pause.type", "SECONDARY");
                 this.buttonConfig.addDefault("stop.type", "SECONDARY");
@@ -74,6 +87,8 @@ public class ConfigManager {
                 this.buttonConfig.addDefault("song_loop_on.type", "SUCCESS");
                 this.buttonConfig.addDefault("volume.type", "SECONDARY");
                 this.buttonConfig.addDefault("favourite.type", "SECONDARY");
+                this.buttonConfig.addDefault("shuffle_on.type", "SUCCESS");
+                this.buttonConfig.addDefault("shuffle_off.type", "SECONDARY");
                 this.buttonConfig.save();
             } else {
                 VecTunes.log(this.buttonConfig.getFilePath() + " already exists, loading configurations...\n");

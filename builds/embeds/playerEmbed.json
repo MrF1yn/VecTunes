@@ -1,0 +1,42 @@
+{
+  "color": 6729708,
+  "author": {
+    "name": "Now Playing: %currSong%",
+    "url": "%currSongUrl%"
+  },
+  "thumbnail": {
+    "url": "%songCoverImg%"
+  },
+  "fields": [
+    {
+      "name": "<:Artist:1028291887343345735>**Artist:**",
+      "value": "> `%artist%`",
+      "inline": false
+    },
+    {
+      "name": "<:Duration:1028291896096854076>**Duration:**",
+      "value": "> `%duration%`",
+      "inline": true
+    },
+    {
+      "name": "<:VoiceJoin:1028291909682221126>**Connected to**",
+      "value": "> %channel%",
+      "inline": true
+    },
+    {
+      "name": "<:Requester:1028291918003716117>**Requested By**",
+      "value": "> %requester%",
+      "inline": true
+    },
+    {
+      "name": "<:Volume:1028291884692553810>**Volume**",
+      "value": "> `%volume%%` %volumebar%",
+      "inline": false
+    },
+    {
+      "name": "<:Lyrics:1028291902921003008>**Queue**",
+      "value": "```%queue%```",
+      "inline": false
+    }
+  ]
+}

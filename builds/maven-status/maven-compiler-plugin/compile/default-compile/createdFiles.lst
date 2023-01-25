@@ -10,6 +10,7 @@ dev\mrflyn\vectunes\commandlisteners\PlayCommandListener.class
 dev\mrflyn\vectunes\searchmanagers\YouTubeSearchManager.class
 dev\mrflyn\vectunes\VecTunes.class
 dev\mrflyn\vectunes\ConfigManager.class
+dev\mrflyn\vectunes\commandlisteners\SpotifySetupCommandListener.class
 dev\mrflyn\vectunes\FavouriteTrack.class
 dev\mrflyn\vectunes\GUIManager.class
 dev\mrflyn\vectunes\VecTunes$2.class
