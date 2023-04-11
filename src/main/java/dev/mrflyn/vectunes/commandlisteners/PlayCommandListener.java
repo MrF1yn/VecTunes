@@ -7,7 +7,7 @@ import dev.mrflyn.vectunes.VecTunes;
 import dev.mrflyn.vectunes.VecTunesAudioSendHandler;
 import dev.mrflyn.vectunes.VecTunesTrackManager;
 import java.util.ArrayList;
-import javax.annotation.Nonnull;
+
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -16,14 +16,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.managers.AudioManager;
+import org.jetbrains.annotations.NotNull;
 
 public class PlayCommandListener
 extends ListenerAdapter {
     @Override
-    public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (event.getGuild() == null) {
             return;
         }
@@ -39,37 +41,41 @@ extends ListenerAdapter {
     public static void startPlaying(SlashCommandInteractionEvent event) {
         Member member = event.getMember();
         GuildVoiceState vcState = member.getVoiceState();
-        if (vcState == null) {
-            return;
+        try {
+            if (vcState == null) {
+                return;
+            }
+            if (!vcState.inAudioChannel()) {
+                return;
+            }
+            String link = event.getOptions().get(0).getAsString();
+            if (!link.startsWith("https://") && !link.startsWith("http://")) {
+                link = VecTunes.youTubeSearchManager.getLinkFromQuery(link);
+            }
+            Guild guild = event.getGuild();
+            if (link.toLowerCase().contains("spotify.")) {
+                link = guild.getIdLong() + " " + link;
+            }
+            VecTunes.log(link);
+            VoiceChannel vc = (VoiceChannel) (vcState.getChannel());
+            VecTunes.log(vc.getName());
+            event.reply("Searching for your song...").setEphemeral(true).queue();
+            AudioManager manager = guild.getAudioManager();
+            if (event.getGuild().getMember(Bot.jda.getSelfUser()).hasPermission(Permission.MANAGE_CHANNEL))
+                vc.getManager().setBitrate(guild.getMaxBitrate()).queue();
+            if (vc.getMembers().contains(guild.getMember(Bot.jda.getSelfUser())) && VecTunes.bot.CHANNEL_TO_TUNES.containsKey(vc.getIdLong())) {
+                VecTunes.bot.CHANNEL_TO_TUNES.get(vc.getIdLong()).queue(link, member.getIdLong(), null);
+                return;
+            }
+            AudioPlayer player = VecTunes.playerManager.createPlayer();
+            manager.setSendingHandler(new VecTunesAudioSendHandler(player));
+            manager.openAudioConnection(vc);
+            VecTunesTrackManager tunesTrackManager = new VecTunesTrackManager(player, vc.getIdLong(), event.getGuild().getIdLong(), event.getChannel().getIdLong());
+            player.addListener(tunesTrackManager);
+            tunesTrackManager.queue(link, member.getIdLong(), event.getChannel().asTextChannel());
+        }catch (PermissionException e){
+            event.getChannel().asTextChannel().sendMessage("No permission to connect to vc!").queue();
         }
-        if (!vcState.inAudioChannel()) {
-            return;
-        }
-        String link = event.getOptions().get(0).getAsString();
-        if (!link.startsWith("https://") && !link.startsWith("http://")) {
-            link = VecTunes.youTubeSearchManager.getLinkFromQuery(link);
-        }
-        Guild guild = event.getGuild();
-        if (link.toLowerCase().contains("spotify.")){
-            link = guild.getIdLong()+" "+link;
-        }
-        VecTunes.log(link);
-        VoiceChannel vc = (VoiceChannel)(vcState.getChannel());
-        VecTunes.log(vc.getName());
-        event.reply("Searching for your song...").setEphemeral(true).queue();
-        AudioManager manager = guild.getAudioManager();
-        if (event.getGuild().getMember(Bot.jda.getSelfUser()).hasPermission(Permission.MANAGE_CHANNEL))
-            vc.getManager().setBitrate(guild.getMaxBitrate()).queue();
-        if (vc.getMembers().contains(guild.getMember(Bot.jda.getSelfUser())) && VecTunes.bot.CHANNEL_TO_TUNES.containsKey(vc.getIdLong())) {
-            VecTunes.bot.CHANNEL_TO_TUNES.get(vc.getIdLong()).queue(link, member.getIdLong());
-            return;
-        }
-        AudioPlayer player = VecTunes.playerManager.createPlayer();
-        manager.setSendingHandler(new VecTunesAudioSendHandler(player));
-        manager.openAudioConnection(vc);
-        VecTunesTrackManager tunesTrackManager = new VecTunesTrackManager(player, vc.getIdLong(), event.getGuild().getIdLong(), event.getChannel().getIdLong());
-        player.addListener(tunesTrackManager);
-        tunesTrackManager.queue(link, member.getIdLong());
     }
 
     @Override

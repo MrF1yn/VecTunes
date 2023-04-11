@@ -7,12 +7,12 @@ import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class SpotifySetupCommandListener
 extends ListenerAdapter {
     @Override
-    public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (event.getGuild() == null) {
             return;
         }

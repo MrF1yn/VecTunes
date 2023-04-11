@@ -31,6 +31,16 @@
   </build>
   <repositories>
     <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>OSS Sonatype snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
       <id>jitpack</id>
       <url>https://jitpack.io</url>
     </repository>

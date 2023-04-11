@@ -10,6 +10,7 @@ import dev.mrflyn.vectunes.FavouriteTrack;
 import dev.mrflyn.vectunes.VecTunes;
 import dev.mrflyn.vectunes.VecTunesTrackManager;
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
+
 import java.awt.Color;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -25,11 +27,11 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Modal;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.interactions.modals.Modal;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -41,7 +43,6 @@ public class GUIManager {
     private long guildID;
     private long embedID = 0L;
     private String uuid;
-    private boolean first = true;
     Gson gson = new Gson();
 
     public GUIManager(VecTunesTrackManager trackManager, long channelID, long guildID) {
@@ -50,6 +51,15 @@ public class GUIManager {
         this.guildID = guildID;
         this.uuid = UUID.randomUUID().toString();
         registeredManagers.put(this.uuid, this);
+    }
+
+    private boolean msgExists(TextChannel channel, long id){
+        try {
+            channel.retrieveMessageById(id).complete();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     public void update() {
@@ -77,43 +87,27 @@ public class GUIManager {
             Button songLoop = this.trackManager.isSongLoop() ? this.parseButton("song_loop_on") : this.parseButton("song_loop_off");
             Button volume = this.parseButton("volume");
             Button favourite = this.parseButton("favourite");
-            if (this.embedID == 0L && this.first) {
-                if (this.trackManager.getPlayer().getPlayingTrack() == null) {
-                    return;
-                }
-                channel.sendMessageEmbeds(embed).addComponents(
-                        ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
-                        ActionRow.of(rewind, playPause, forward, autoplay, volume),
-                        ActionRow.of(shuffle))
-                        .queue(message -> {
-                    this.embedID = message.getIdLong();
-                    update();
-                });
-                this.first = false;
+            if(this.embedID!=0L&&msgExists(channel,this.embedID)){
+                channel.editMessageEmbedsById(this.embedID, embed).queue(success1 -> {
+                }, Throwable::printStackTrace);
+                channel.editMessageComponentsById(this.embedID,
+                                ActionRow.of(skip, stop, queueLoop, songLoop),
+                                ActionRow.of(rewind, playPause, forward, autoplay, volume),
+                                ActionRow.of(shuffle))
+                        .queue(success -> {
+                        }, Throwable::printStackTrace);
                 return;
             }
-            if (this.embedID == 0L) {
+            if (this.trackManager.getPlayer().getPlayingTrack() == null) {
                 return;
             }
-            channel.editMessageComponentsById(this.embedID,
-                    ActionRow.of(skip, stop, queueLoop, songLoop),
-                    ActionRow.of(rewind, playPause, forward, autoplay, volume),
-                    ActionRow.of(shuffle))
+            this.embedID = channel.sendMessageEmbeds(embed).addComponents(
+                            ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
+                            ActionRow.of(rewind, playPause, forward, autoplay, volume),
+                            ActionRow.of(shuffle))
+                    .complete().getIdLong();
 
-                    .queue(success -> {}, t -> {
-                if (t instanceof ErrorResponseException && ((ErrorResponseException)t).getErrorCode() == 10008) {
-                    return;
-                }
-                t.printStackTrace();
-            });
-            channel.editMessageEmbedsById(this.embedID, embed).queue(success1 -> {}, t -> {
-                if (t instanceof ErrorResponseException && ((ErrorResponseException)t).getErrorCode() == 10008) {
-                    return;
-                }
-                t.printStackTrace();
-            });
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             if (e instanceof JsonSyntaxException) {
                 return;
             }
@@ -135,12 +129,11 @@ public class GUIManager {
             return;
         }
         channel.sendMessageEmbeds(embed).queue();
-        if (this.embedID!=0L)
-        channel.deleteMessageById(this.embedID).queue(success -> {
-            this.embedID=0L;
-            this.first = true;
-            update();
-        }, Throwable::printStackTrace);
+        if (this.embedID != 0L)
+            channel.deleteMessageById(this.embedID).queue(success -> {
+                this.embedID = 0L;
+                update();
+            }, Throwable::printStackTrace);
 
     }
 
@@ -162,13 +155,12 @@ public class GUIManager {
             return;
         }
         channel.deleteMessageById(this.embedID).queue();
-        this.embedID=0L;
-        this.first = true;
+        this.embedID = 0L;
     }
 
     public void onButtonClick(ButtonInteractionEvent event, String id) {
         switch (id) {
-            case "play": 
+            case "play":
             case "pause": {
                 this.trackManager.togglePlayPause();
                 break;
@@ -177,7 +169,7 @@ public class GUIManager {
                 this.trackManager.destroy();
                 return;
             }
-            case "autoplay_off": 
+            case "autoplay_off":
             case "autoplay_on": {
                 this.trackManager.toggleAutoPlay();
                 break;
@@ -199,12 +191,12 @@ public class GUIManager {
                 this.trackManager.skip();
                 break;
             }
-            case "queue_loop_on": 
+            case "queue_loop_on":
             case "queue_loop_off": {
                 this.trackManager.toggleQueueLoop();
                 break;
             }
-            case "song_loop_on": 
+            case "song_loop_on":
             case "song_loop_off": {
                 this.trackManager.toggleSongLoop();
                 break;
@@ -228,7 +220,8 @@ public class GUIManager {
             }
             case "volume": {
                 TextInput subject = TextInput.create("volume_subject", "Volume", TextInputStyle.SHORT).setPlaceholder("0-100").setMinLength(1).setMaxLength(100).build();
-                Modal modal = Modal.create(this.uuid + ":volume_modal", "Volume Change").addActionRows(ActionRow.of(subject)).build();
+                Modal modal = Modal.create(this.uuid + ":volume_modal", "Volume Change").
+                        addComponents(ActionRow.of(subject)).build();
                 event.replyModal(modal).queue();
                 return;
             }
@@ -258,8 +251,7 @@ public class GUIManager {
     private Button parseButton(String name) {
         String emoji = VecTunes.configManager.getButtonConfig().getString(name + ".emoji");
         String displayName = VecTunes.configManager.getButtonConfig().getString(name + ".display_name")
-                .replace("%volume%", this.trackManager.getPlayer().getVolume()+"")
-                ;
+                .replace("%volume%", this.trackManager.getPlayer().getVolume() + "");
         String type = VecTunes.configManager.getButtonConfig().getString(name + ".type");
         return Button.of(ButtonStyle.valueOf(type), this.uuid + ":" + name, displayName, Emoji.fromFormatted(emoji));
     }
@@ -268,7 +260,7 @@ public class GUIManager {
         try {
             String json = VecTunes.EMBED_JSONS.get(embedFile);
             String title = "NONE";
-            String thumbnail =null;
+            String thumbnail = null;
             String artist = "NONE";
             String duration = "NONE";
             String requester = "NONE";
@@ -282,12 +274,13 @@ public class GUIManager {
                 if (currTrack.getSourceManager().getSourceName().equals("youtube")) {
                     thumbnail = "https://img.youtube.com/vi/" + currTrack.getInfo().identifier + "/0.jpg";
                 } else if (currTrack instanceof SpotifyAudioTrack) {
-                    thumbnail = ((SpotifyAudioTrack)currTrack).getArtworkURL();
+                    thumbnail = ((SpotifyAudioTrack) currTrack).getArtworkURL();
                 }
             }
-            if (thumbnail==null)thumbnail = "https://cdn.discordapp.com/icons/928525879087362050/d348f37279e01d75cbb7c09bdf39242a.webp?size=100";
-            String queue = " "+StringEscapeUtils.escapeJson(this.trackManager.getRemainingQueueString().trim());
-            queue = queue.length() > 900?queue.substring(0, 900) + "..." : queue;
+            if (thumbnail == null)
+                thumbnail = "https://cdn.discordapp.com/icons/928525879087362050/d348f37279e01d75cbb7c09bdf39242a.webp?size=100";
+            String queue = " " + StringEscapeUtils.escapeJson(this.trackManager.getRemainingQueueString().trim());
+            queue = queue.length() > 900 ? queue.substring(0, 900) + "..." : queue;
             json = json.replace("%currSong%", StringEscapeUtils.escapeJson(title.trim()))
                     .replace("%songCoverImg%", StringEscapeUtils.escapeJson(thumbnail.trim()))
                     .replace("%artist%", StringEscapeUtils.escapeJson(artist.trim()))
@@ -299,8 +292,7 @@ public class GUIManager {
                     .replace("%currSongUrl%", StringEscapeUtils.escapeJson(url.trim()))
                     .replace("%queue%", queue);
             return jsonToEmbed(gson.fromJson(json, JsonObject.class));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

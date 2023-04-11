@@ -5,7 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5f02083-233f-4a66-bbfd-e315932b3519" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/builds/config.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/FavouriteTrack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/FavouriteTrack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/PresenceListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/PresenceListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/StringUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/StringUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesAudioSendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesAudioSendHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesTrackManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesTrackManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/ButtonListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/ButtonListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/PlayCommandListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/PlayCommandListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/SpotifySetupCommandListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/SpotifySetupCommandListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YoutubeMusicSearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YoutubeMusicSearchManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/playerEmbed.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/playerEmbed.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/songFinished.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/songFinished.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,23 +53,27 @@
   <component name="MacroExpansionManager">
     <option name="directoryName" value="wjv3pg89" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2GGrfFkYQtara60ojBzv0cgDCvI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="dev.mrflyn.vectunes.commandlisteners" />
@@ -80,6 +109,11 @@
       <workItem from="1666891212062" duration="564000" />
       <workItem from="1667302630998" duration="6000" />
       <workItem from="1674656757447" duration="716000" />
+      <workItem from="1680604750885" duration="53000" />
+      <workItem from="1680604899177" duration="293000" />
+      <workItem from="1680605341610" duration="770000" />
+      <workItem from="1681215635827" duration="2845000" />
+      <workItem from="1681230010245" duration="920000" />
     </task>
     <servers />
   </component>
@@ -91,11 +125,22 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
