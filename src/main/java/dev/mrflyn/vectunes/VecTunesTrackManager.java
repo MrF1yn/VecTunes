@@ -199,7 +199,6 @@ public class VecTunesTrackManager extends AudioEventAdapter {
                     VecTunes.log("STARTED");
                     VecTunesTrackManager.this.player.playTrack(VecTunesTrackManager.this.trackQueue.poll());
                 }
-                VecTunesTrackManager.this.guiManager.update();
             }
 
             @Override

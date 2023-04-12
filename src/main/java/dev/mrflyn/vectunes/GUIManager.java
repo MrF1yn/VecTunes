@@ -4,6 +4,7 @@ package dev.mrflyn.vectunes;
 import com.github.topisenpai.lavasrc.spotify.SpotifyAudioTrack;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
+import com.sedmelluq.discord.lavaplayer.remote.message.UnknownMessage;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import dev.mrflyn.vectunes.Bot;
 import dev.mrflyn.vectunes.FavouriteTrack;
@@ -62,6 +63,7 @@ public class GUIManager {
         return true;
     }
 
+
     public void update() {
         try {
             Guild guild = Bot.jda.getGuildById(this.guildID);
@@ -87,25 +89,34 @@ public class GUIManager {
             Button songLoop = this.trackManager.isSongLoop() ? this.parseButton("song_loop_on") : this.parseButton("song_loop_off");
             Button volume = this.parseButton("volume");
             Button favourite = this.parseButton("favourite");
-            if(this.embedID!=0L&&msgExists(channel,this.embedID)){
-                channel.editMessageEmbedsById(this.embedID, embed).queue(success1 -> {
-                }, Throwable::printStackTrace);
-                channel.editMessageComponentsById(this.embedID,
-                                ActionRow.of(skip, stop, queueLoop, songLoop),
-                                ActionRow.of(rewind, playPause, forward, autoplay, volume),
-                                ActionRow.of(shuffle))
-                        .queue(success -> {
-                        }, Throwable::printStackTrace);
+            if(this.embedID!=0L){
+                channel.editMessageEmbedsById(this.embedID, embed).queue(s->{
+                    channel.editMessageComponentsById(this.embedID,
+                            ActionRow.of(skip, stop, queueLoop, songLoop),
+                            ActionRow.of(rewind, playPause, forward, autoplay, volume),
+                            ActionRow.of(shuffle)).queue(s1->{},err1->{
+//                                err1.printStackTrace();
+                    });
+
+                },err->{
+//                    err.printStackTrace();
+                });
+
                 return;
             }
             if (this.trackManager.getPlayer().getPlayingTrack() == null) {
                 return;
             }
-            this.embedID = channel.sendMessageEmbeds(embed).addComponents(
-                            ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
-                            ActionRow.of(rewind, playPause, forward, autoplay, volume),
-                            ActionRow.of(shuffle))
-                    .complete().getIdLong();
+            channel.sendMessageEmbeds(embed).addComponents(
+                    ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
+                    ActionRow.of(rewind, playPause, forward, autoplay, volume),
+                    ActionRow.of(shuffle)).queue(message -> {
+                this.embedID = message.getIdLong();
+                update();
+            }, err -> {
+                err.printStackTrace();
+                update();
+            });
 
         } catch (Exception e) {
             if (e instanceof JsonSyntaxException) {
