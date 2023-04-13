@@ -161,7 +161,7 @@ public class VecTunesTrackManager extends AudioEventAdapter {
         this.guiManager.update();
     }
 
-    public void queue(final String song, final Long requester, TextChannel channel) {
+    public void queue(final String song, final Long requester, TextChannel channel, boolean force) {
         if (this.requestedTracks.contains(song)) {
             return;
         }
@@ -170,6 +170,10 @@ public class VecTunesTrackManager extends AudioEventAdapter {
 
             @Override
             public void trackLoaded(AudioTrack track) {
+                if (force){
+                    VecTunesTrackManager.this.player.playTrack(track);
+                    return;
+                }
                 VecTunes.log(track.getIdentifier() + " added to queue!");
                 if (channel!=null){
                     channel.sendMessage(track.getInfo().title +" added to Queue!").queue();
@@ -177,14 +181,19 @@ public class VecTunesTrackManager extends AudioEventAdapter {
                 VecTunesTrackManager.this.trackQueue.add(track);
                 VecTunesTrackManager.this.persistentTrackQueue.add(track.makeClone());
                 VecTunesTrackManager.this.TRACK_REQUESTER.put(track.getIdentifier(), requester);
+
                 if (VecTunesTrackManager.this.player.getPlayingTrack() == null && !VecTunesTrackManager.this.trackQueue.isEmpty()) {
                     VecTunesTrackManager.this.player.playTrack(VecTunesTrackManager.this.trackQueue.poll());
                 }
-                VecTunesTrackManager.this.guiManager.update();
+//                VecTunesTrackManager.this.guiManager.update();
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
+                if (force){
+                    channel.sendMessage("Cannot force play a playlist!").queue();
+                    return;
+                }
                 VecTunes.log(playlist.getName() + " playlist added to queue!");
                 if (channel!=null){
                     channel.sendMessage(playlist.getName() +" playlist added to Queue!").queue();
@@ -283,23 +292,23 @@ public class VecTunesTrackManager extends AudioEventAdapter {
                     if (track instanceof SpotifyAudioTrack) {
                         SpotifyAudioTrack spotifyAudioTrack = (SpotifyAudioTrack)track;
                         for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayList(spotifyAudioTrack, guildID)) {
-                            this.queue(guildID+" "+tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong(), null);
+                            this.queue(guildID+" "+tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong(), null, false);
                         }
                         return;
                     }
                     for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author, guildID)) {
-                        this.queue(guildID+" "+tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong(), null);
+                        this.queue(guildID+" "+tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong(), null, false);
                     }
                     return;
                 }
                 if (!(track instanceof YoutubeAudioTrack)) {
                     for (YouTubeTrack ytTrack : VecTunes.youTubeSearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author)) {
-                        this.queue(ytTrack.getUrl(), Bot.jda.getSelfUser().getIdLong(), null);
+                        this.queue(ytTrack.getUrl(), Bot.jda.getSelfUser().getIdLong(), null, false);
                     }
                     return;
                 }
                 for (YouTubeTrack ytTrack : VecTunes.youTubeSearchManager.getAutoPlayList(track.getInfo().identifier)) {
-                    this.queue(ytTrack.getUrl(), Bot.jda.getSelfUser().getIdLong(), null);
+                    this.queue(ytTrack.getUrl(), Bot.jda.getSelfUser().getIdLong(), null, false);
                 }
                 return;
             }

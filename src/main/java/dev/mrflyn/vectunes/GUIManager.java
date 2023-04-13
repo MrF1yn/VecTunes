@@ -44,7 +44,7 @@ public class GUIManager {
     private long guildID;
     private long embedID = 0L;
     private String uuid;
-    Gson gson = new Gson();
+    Gson gson = new GsonBuilder().setLenient().create();
 
     public GUIManager(VecTunesTrackManager trackManager, long channelID, long guildID) {
         this.trackManager = trackManager;
@@ -300,9 +300,12 @@ public class GUIManager {
                     .replace("%requester%", StringEscapeUtils.escapeJson(requester.trim()))
                     .replace("%volume%", StringEscapeUtils.escapeJson(("" + this.trackManager.getPlayer().getVolume()).trim()))
                     .replace("%volumebar%", StringEscapeUtils.escapeJson(this.getVolumeBar().trim()))
-                    .replace("%currSongUrl%", StringEscapeUtils.escapeJson(url.trim()))
-                    .replace("%queue%", queue);
-            return jsonToEmbed(gson.fromJson(json, JsonObject.class));
+                    .replace("%currSongUrl%", StringEscapeUtils.escapeJson(url.trim()));
+            try {
+                return jsonToEmbed(gson.fromJson(json.replace("%queue%", queue), JsonObject.class));
+            }catch (Exception e){
+                return jsonToEmbed(gson.fromJson(json.replace("%queue%", "Loading..."), JsonObject.class));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;

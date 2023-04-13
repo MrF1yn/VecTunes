@@ -64,7 +64,7 @@ extends ListenerAdapter {
             if (event.getGuild().getMember(Bot.jda.getSelfUser()).hasPermission(Permission.MANAGE_CHANNEL))
                 vc.getManager().setBitrate(guild.getMaxBitrate()).queue();
             if (vc.getMembers().contains(guild.getMember(Bot.jda.getSelfUser())) && VecTunes.bot.CHANNEL_TO_TUNES.containsKey(vc.getIdLong())) {
-                VecTunes.bot.CHANNEL_TO_TUNES.get(vc.getIdLong()).queue(link, member.getIdLong(), null);
+                VecTunes.bot.CHANNEL_TO_TUNES.get(vc.getIdLong()).queue(link, member.getIdLong(), event.getChannel().asTextChannel(), false);
                 return;
             }
             AudioPlayer player = VecTunes.playerManager.createPlayer();
@@ -72,7 +72,7 @@ extends ListenerAdapter {
             manager.openAudioConnection(vc);
             VecTunesTrackManager tunesTrackManager = new VecTunesTrackManager(player, vc.getIdLong(), event.getGuild().getIdLong(), event.getChannel().getIdLong());
             player.addListener(tunesTrackManager);
-            tunesTrackManager.queue(link, member.getIdLong(), event.getChannel().asTextChannel());
+            tunesTrackManager.queue(link, member.getIdLong(), event.getChannel().asTextChannel(),false);
         }catch (PermissionException e){
             event.getChannel().asTextChannel().sendMessage("No permission to connect to vc!").queue();
         }
