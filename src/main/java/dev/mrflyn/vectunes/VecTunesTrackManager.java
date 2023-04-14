@@ -170,7 +170,9 @@ public class VecTunesTrackManager extends AudioEventAdapter {
 
             @Override
             public void trackLoaded(AudioTrack track) {
+                VecTunesTrackManager.this.TRACK_REQUESTER.put(track.getIdentifier(), requester);
                 if (force){
+                    VecTunesTrackManager.this.player.stopTrack();
                     VecTunesTrackManager.this.player.playTrack(track);
                     return;
                 }
@@ -180,7 +182,7 @@ public class VecTunesTrackManager extends AudioEventAdapter {
                 }
                 VecTunesTrackManager.this.trackQueue.add(track);
                 VecTunesTrackManager.this.persistentTrackQueue.add(track.makeClone());
-                VecTunesTrackManager.this.TRACK_REQUESTER.put(track.getIdentifier(), requester);
+
 
                 if (VecTunesTrackManager.this.player.getPlayingTrack() == null && !VecTunesTrackManager.this.trackQueue.isEmpty()) {
                     VecTunesTrackManager.this.player.playTrack(VecTunesTrackManager.this.trackQueue.poll());
@@ -190,13 +192,15 @@ public class VecTunesTrackManager extends AudioEventAdapter {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                if (force){
-                    channel.sendMessage("Cannot force play a playlist!").queue();
-                    return;
-                }
                 VecTunes.log(playlist.getName() + " playlist added to queue!");
                 if (channel!=null){
                     channel.sendMessage(playlist.getName() +" playlist added to Queue!").queue();
+                }
+                if (force){
+                    VecTunesTrackManager.this.player.stopTrack();
+                    VecTunesTrackManager.this.trackQueue.clear();
+                    VecTunesTrackManager.this.persistentTrackQueue.clear();
+                    VecTunesTrackManager.this.TRACK_REQUESTER.clear();
                 }
                 playlist.getTracks().forEach(t -> {
                     VecTunes.log("Added: " + t.getInfo().title);

@@ -54,8 +54,11 @@ public class Bot {
             e.printStackTrace();
         }
         jda.upsertCommand("play", "play a song with the link.")
-                .addOptions(new OptionData(OptionType.STRING, "link-or-name", "Link or Name of the song.", true)
-                        .setAutoComplete(true)).queue();
+                .addOptions(
+                        new OptionData(OptionType.STRING, "link-or-name", "Link or Name of the song.", true).setAutoComplete(true),
+                        new OptionData(OptionType.BOOLEAN, "forceplay", "whether to skip the queue and force play the song.",false))
+                .queue();
+
         jda.upsertCommand("spotify_setup", "setup spotify api")
                 .addOptions(
                         new OptionData(OptionType.STRING, "client-id", "client-id", true),
