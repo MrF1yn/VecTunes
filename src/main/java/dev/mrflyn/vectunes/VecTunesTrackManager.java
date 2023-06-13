@@ -131,6 +131,15 @@ public class VecTunesTrackManager extends AudioEventAdapter {
         this.guiManager.update();
     }
 
+    public void skip(int trackNo){
+        if (trackNo<0||this.trackQueue.size()<=trackNo)return;
+        this.player.stopTrack();
+        this.player.playTrack(this.trackQueue.get(trackNo));
+        this.trackQueue.remove(trackNo);
+    }
+    public int getRemainingTrackNumber(){
+        return trackQueue.size();
+    }
     public void forward(int secs) {
         if (secs <= 0) {
             return;

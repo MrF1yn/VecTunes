@@ -89,12 +89,13 @@ public class GUIManager {
             Button songLoop = this.trackManager.isSongLoop() ? this.parseButton("song_loop_on") : this.parseButton("song_loop_off");
             Button volume = this.parseButton("volume");
             Button favourite = this.parseButton("favourite");
+            Button jump = this.parseButton("jump_track");
             if(this.embedID!=0L){
                 channel.editMessageEmbedsById(this.embedID, embed).queue(s->{
                     channel.editMessageComponentsById(this.embedID,
-                            ActionRow.of(skip, stop, queueLoop, songLoop),
+                            ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
                             ActionRow.of(rewind, playPause, forward, autoplay, volume),
-                            ActionRow.of(shuffle)).queue(s1->{},err1->{
+                            ActionRow.of(shuffle, jump)).queue(s1->{},err1->{
 //                                err1.printStackTrace();
                     });
 
@@ -110,7 +111,7 @@ public class GUIManager {
             channel.sendMessageEmbeds(embed).addComponents(
                     ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
                     ActionRow.of(rewind, playPause, forward, autoplay, volume),
-                    ActionRow.of(shuffle)).queue(message -> {
+                    ActionRow.of(shuffle, jump)).queue(message -> {
                 this.embedID = message.getIdLong();
                 update();
             }, err -> {
@@ -151,6 +152,8 @@ public class GUIManager {
     public void error(String reason) {
         VecTunes.log(reason);
     }
+
+
 
     public void destroy() {
         registeredManagers.remove(this.uuid);
@@ -230,8 +233,16 @@ public class GUIManager {
                 return;
             }
             case "volume": {
-                TextInput subject = TextInput.create("volume_subject", "Volume", TextInputStyle.SHORT).setPlaceholder("0-100").setMinLength(1).setMaxLength(100).build();
+                TextInput subject = TextInput.create("volume_subject", "Volume", TextInputStyle.SHORT).setPlaceholder("1-100").setMinLength(1).setMaxLength(100).build();
                 Modal modal = Modal.create(this.uuid + ":volume_modal", "Volume Change").
+                        addComponents(ActionRow.of(subject)).build();
+                event.replyModal(modal).queue();
+                return;
+            }
+            case "jump_track":{
+                TextInput subject = TextInput.create("jump_track_subject", "Jump Track", TextInputStyle.SHORT)
+                        .setPlaceholder("0-"+trackManager.getRemainingTrackNumber()).setMinLength(1).setMaxLength(100).build();
+                Modal modal = Modal.create(this.uuid + ":jump_track_modal", "Jump Track").
                         addComponents(ActionRow.of(subject)).build();
                 event.replyModal(modal).queue();
                 return;

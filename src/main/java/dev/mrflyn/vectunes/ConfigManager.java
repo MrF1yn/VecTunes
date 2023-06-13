@@ -50,6 +50,7 @@ public class ConfigManager {
                 this.buttonConfig.addDefault("song_loop_off.emoji", "<:LoopQueue:1028291913813606420>");
                 this.buttonConfig.addDefault("song_loop_on.emoji", "<:LoopQueue:1028291913813606420>");
                 this.buttonConfig.addDefault("volume.emoji", "<:Volume:1028291884692553810>");
+                this.buttonConfig.addDefault("jump_track.emoji", "<:Jump:1084877137619734578>");
                 this.buttonConfig.addDefault("favourite.emoji", "<:FavoriteSong:1028291898483425300>");
                 this.buttonConfig.addDefault("shuffle_on.emoji", "<:Shuffle:1034499896507641956>");
                 this.buttonConfig.addDefault("shuffle_off.emoji", "<:Shuffle:1034499896507641956>");
@@ -68,6 +69,7 @@ public class ConfigManager {
                 this.buttonConfig.addDefault("song_loop_off.display_name", "TrackLoop: Off");
                 this.buttonConfig.addDefault("song_loop_on.display_name", "TrackLoop: On");
                 this.buttonConfig.addDefault("volume.display_name", "%volume%%");
+                this.buttonConfig.addDefault("jump_track.display_name", "Jump Track");
                 this.buttonConfig.addDefault("favourite.display_name", "");
                 this.buttonConfig.addDefault("shuffle_on.display_name", "Shuffle: On");
                 this.buttonConfig.addDefault("shuffle_off.display_name", "Shuffle: Off");
@@ -86,6 +88,7 @@ public class ConfigManager {
                 this.buttonConfig.addDefault("song_loop_off.type", "SECONDARY");
                 this.buttonConfig.addDefault("song_loop_on.type", "SUCCESS");
                 this.buttonConfig.addDefault("volume.type", "SECONDARY");
+                this.buttonConfig.addDefault("jump_track.type", "SECONDARY");
                 this.buttonConfig.addDefault("favourite.type", "SECONDARY");
                 this.buttonConfig.addDefault("shuffle_on.type", "SUCCESS");
                 this.buttonConfig.addDefault("shuffle_off.type", "SECONDARY");
