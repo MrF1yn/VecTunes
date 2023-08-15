@@ -1,19 +1,13 @@
 
 package dev.mrflyn.vectunes;
 
-import com.github.topisenpai.lavasrc.spotify.SpotifyAudioTrack;
+import com.github.topi314.lavasrc.ExtendedAudioTrack;
+import com.github.topi314.lavasrc.spotify.SpotifyAudioTrack;
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.sedmelluq.discord.lavaplayer.remote.message.UnknownMessage;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import dev.mrflyn.vectunes.Bot;
-import dev.mrflyn.vectunes.FavouriteTrack;
-import dev.mrflyn.vectunes.VecTunes;
-import dev.mrflyn.vectunes.VecTunesTrackManager;
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
 
 import java.awt.Color;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,15 +20,12 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
-import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
 public class GUIManager {
@@ -296,7 +287,7 @@ public class GUIManager {
                 if (currTrack.getSourceManager().getSourceName().equals("youtube")) {
                     thumbnail = "https://img.youtube.com/vi/" + currTrack.getInfo().identifier + "/0.jpg";
                 } else if (currTrack instanceof SpotifyAudioTrack) {
-                    thumbnail = ((SpotifyAudioTrack) currTrack).getArtworkURL();
+                    thumbnail = currTrack.getInfo().artworkUrl;
                 }
             }
             if (thumbnail == null)

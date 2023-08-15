@@ -1,7 +1,7 @@
 
 package dev.mrflyn.vectunes.commandlisteners;
 
-import com.github.topisenpai.lavasrc.spotify.SpotifyCredentials;
+import com.github.topi314.lavasrc.spotify.SpotifyCredentials;
 import dev.mrflyn.vectunes.VecTunes;
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
 import net.dv8tion.jda.api.Permission;

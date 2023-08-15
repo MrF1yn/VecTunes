@@ -1,7 +1,8 @@
 
 package dev.mrflyn.vectunes.searchmanagers;
 
-import com.github.topisenpai.lavasrc.spotify.SpotifyCredentials;
+
+import com.github.topi314.lavasrc.spotify.SpotifyCredentials;
 import dev.mrflyn.vectunes.FavouriteTrack;
 import dev.mrflyn.vectunes.StringUtil;
 import io.sfrei.tracksearch.clients.TrackSearchClient;

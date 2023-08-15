@@ -1,7 +1,8 @@
 
 package dev.mrflyn.vectunes;
 
-import com.github.topisenpai.lavasrc.spotify.SpotifyAudioTrack;
+
+import com.github.topi314.lavasrc.spotify.SpotifyAudioTrack;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;

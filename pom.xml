@@ -29,6 +29,10 @@
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>mattmalec-repo</id>
+            <url>https://repo.mattmalec.com/repository/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -50,15 +54,33 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.github.walkyst</groupId>
-            <artifactId>lavaplayer-fork</artifactId>
-            <version>1.4.0</version>
+            <groupId>dev.arbjerg</groupId>
+            <artifactId>lavaplayer</artifactId>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.github.TopiSenpai.LavaSrc</groupId>
+            <groupId>com.github.topi314.lavasrc</groupId>
             <artifactId>lavasrc</artifactId>
-            <version>3.0.6</version>
+            <version>1bf3208</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.topi314.lavasearch</groupId>
+            <artifactId>lavasearch</artifactId>
+            <version>c220497</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.mrf1yn</groupId>-->
+<!--            <artifactId>LavaSrc</artifactId>-->
+<!--            <version>3.2.6</version>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.11.0</version>
+        </dependency>
+
+
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
         <dependency>
@@ -67,10 +89,12 @@
             <version>1.10.0</version>
         </dependency>
 
+
+
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-beta.6</version>
+            <version>5.0.0-beta.13</version>
         </dependency>
         <dependency>
             <groupId>org.yaml.simpleyaml</groupId>

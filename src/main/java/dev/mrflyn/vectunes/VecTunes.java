@@ -1,9 +1,11 @@
 
 package dev.mrflyn.vectunes;
 
-import com.github.topisenpai.lavasrc.applemusic.AppleMusicSourceManager;
-import com.github.topisenpai.lavasrc.spotify.SpotifyCredentials;
-import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
+
+
+import com.github.topi314.lavasrc.applemusic.AppleMusicSourceManager;
+import com.github.topi314.lavasrc.spotify.SpotifySourceManager;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -17,8 +19,6 @@ import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceM
 import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
-import dev.mrflyn.vectunes.Bot;
-import dev.mrflyn.vectunes.ConfigManager;
 import dev.mrflyn.vectunes.searchmanagers.SpotifySearchManager;
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
 import java.io.File;
@@ -28,12 +28,26 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
+
+import org.apache.http.Header;
+import org.apache.http.HttpHeaders;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.simpleyaml.configuration.file.YamlFile;
 
 public class VecTunes {
@@ -44,6 +58,8 @@ public class VecTunes {
     public static HashMap<String, String> EMBED_JSONS;
     public static YouTubeSearchManager youTubeSearchManager;
     public static SpotifySearchManager spotifySearchManager;
+
+
 
     public static void main(String[] args) throws FileNotFoundException {
         VecTunes.saveResource("embeds", "playerEmbed.json", false);
@@ -120,7 +136,7 @@ public class VecTunes {
 
             spotifySearchManager = new SpotifySearchManager(spotifySourceManager);
         }
-        playerManager.registerSourceManager(new AppleMusicSourceManager(null, "us", playerManager));
+//        playerManager.registerSourceManager(new AppleMusicSourceManager(null, "us", playerManager));
         playerManager.registerSourceManager(new HttpAudioSourceManager());
         playerManager.registerSourceManager(new LocalAudioSourceManager());
         AudioSourceManagers.registerRemoteSources(playerManager);
@@ -186,6 +202,30 @@ public class VecTunes {
                 throw new IllegalArgumentException("ResourcePath cannot be null or empty");
             }
         }
+    }
+
+    public static long skyNodeRemainingTimeSeconds(){
+        final HttpGet request = new HttpGet("https://panel.skynode.pro/api/client/servers/3f576c30");
+        final List<Header> headers = Arrays.asList(
+                new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json"),
+                new BasicHeader(HttpHeaders.ACCEPT, "application/json"),
+                new BasicHeader(HttpHeaders.AUTHORIZATION, "Bearer ptlc_NjwZpOvcrVY1i5KcEDZ2pueG6Vhnn0d3aVZNsKuxKHR"));
+
+        try (CloseableHttpClient client = HttpClients.custom()
+                .setDefaultHeaders(headers)
+                .build()) {
+
+            String response = client.execute(request, new BasicResponseHandler());
+            JsonObject obj = JsonParser.parseString(response).getAsJsonObject();
+            String expiresAT = obj.get("attributes").getAsJsonObject().get("expires_at").getAsString();
+
+            LocalDateTime dateTimeex = LocalDateTime.parse(expiresAT.substring(0, expiresAT.length()-1));
+            LocalDateTime dateTime = LocalDateTime.now(ZoneOffset.UTC);
+            return Duration.between(dateTime, dateTimeex).toSeconds();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return -1;
     }
 }
 

@@ -44,6 +44,10 @@
       <id>jitpack</id>
       <url>https://jitpack.io</url>
     </repository>
+    <repository>
+      <id>mattmalec-repo</id>
+      <url>https://repo.mattmalec.com/repository/releases</url>
+    </repository>
   </repositories>
   <properties>
     <maven.compiler.target>11</maven.compiler.target>

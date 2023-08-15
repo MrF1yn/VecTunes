@@ -26,5 +26,10 @@
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="mattmalec-repo" />
+      <option name="name" value="mattmalec-repo" />
+      <option name="url" value="https://repo.mattmalec.com/repository/releases" />
+    </remote-repository>
   </component>
 </project>

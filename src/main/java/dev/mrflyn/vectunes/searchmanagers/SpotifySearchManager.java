@@ -1,10 +1,10 @@
 
 package dev.mrflyn.vectunes.searchmanagers;
 
-import com.github.topisenpai.lavasrc.spotify.SpotifyAudioTrack;
-import com.github.topisenpai.lavasrc.spotify.SpotifySourceManager;
-import com.github.topisenpai.lavasrc.spotify.data.SpotifyArtistInfo;
-import com.github.topisenpai.lavasrc.spotify.data.SpotifyTrackFeatures;
+import com.github.topi314.lavasrc.spotify.SpotifyAudioTrack;
+import com.github.topi314.lavasrc.spotify.SpotifySourceManager;
+import com.github.topi314.lavasrc.spotify.data.SpotifyArtistInfo;
+import com.github.topi314.lavasrc.spotify.data.SpotifyTrackFeatures;
 import com.sedmelluq.discord.lavaplayer.track.AudioItem;
 import com.sedmelluq.discord.lavaplayer.track.AudioReference;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -34,7 +34,7 @@ public class SpotifySearchManager {
 
     public BasicAudioPlaylist getPlaylistFromSearch(String query, long guildID) {
         try {
-            AudioItem item = this.spotifySourceManager.getSearch(query, guildID);
+            AudioItem item = this.spotifySourceManager.getSearch(query,false, guildID);
             if (item == AudioReference.NO_TRACK) {
                 return null;
             }
@@ -60,7 +60,7 @@ public class SpotifySearchManager {
             track = (SpotifyAudioTrack) audioTrack;
         }
 
-        SpotifyArtistInfo artistInfo = this.spotifySourceManager.getArtistInfo(track.getArtistID(), guildID);
+        SpotifyArtistInfo artistInfo = this.spotifySourceManager.getArtistInfo(track.getTrackInfo().author, guildID);
         if (artistInfo==null)return new ArrayList<>();
         SpotifyTrackFeatures trackFeatures = this.spotifySourceManager.getTrackFeatures(track.getInfo().identifier, guildID);
         if (trackFeatures==null) return new ArrayList<>();
@@ -90,8 +90,7 @@ public class SpotifySearchManager {
 //                "max_valence="+trackFeatures.getValence()
                 ;
 
-            AudioItem item = this.spotifySourceManager.getRecommendations(query,
-                    guildID);
+            AudioItem item = this.spotifySourceManager.getRecommendations(query, false, guildID);
             if (item == AudioReference.NO_TRACK) {
                 return new ArrayList<SpotifyAudioTrack>();
             }

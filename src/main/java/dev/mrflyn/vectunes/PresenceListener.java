@@ -1,9 +1,8 @@
 
 package dev.mrflyn.vectunes;
 
-import com.github.topisenpai.lavasrc.spotify.SpotifyCredentials;
-import dev.mrflyn.vectunes.Bot;
-import dev.mrflyn.vectunes.VecTunes;
+
+import com.github.topi314.lavasrc.spotify.SpotifyCredentials;
 
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
 import net.dv8tion.jda.api.entities.Activity;

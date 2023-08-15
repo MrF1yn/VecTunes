@@ -31,6 +31,7 @@ public class Bot {
     }
 
     public void enable() {
+        long millis = System.currentTimeMillis();
         try {
             jda = JDABuilder.createLight(this.botToken,
                     GatewayIntent.GUILD_MESSAGES,
@@ -52,6 +53,7 @@ public class Bot {
         }
         catch (Exception e) {
             e.printStackTrace();
+            System.exit(0);
         }
         jda.upsertCommand("play", "play a song with the link.")
                 .addOptions(
@@ -65,6 +67,7 @@ public class Bot {
                         new OptionData(OptionType.STRING, "client-secret", "client-secret", true),
                         new OptionData(OptionType.STRING, "country-code", "country-code", true))
                 .queue();
+        VecTunes.log("Done ("+(System.currentTimeMillis()-millis)/1000.0+"s)! For help, type \"help\" or \"?\"");
     }
 }
 
