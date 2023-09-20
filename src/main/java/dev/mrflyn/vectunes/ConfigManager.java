@@ -4,6 +4,8 @@ package dev.mrflyn.vectunes;
 import dev.mrflyn.vectunes.VecTunes;
 import org.simpleyaml.configuration.file.YamlFile;
 
+import java.util.Arrays;
+
 public class ConfigManager {
     private YamlFile mainConfig;
     private YamlFile buttonConfig;
@@ -19,6 +21,13 @@ public class ConfigManager {
                 VecTunes.log("New file has been created: " + this.mainConfig.getFilePath() + "\n");
                 this.mainConfig.createNewFile(true);
                 this.mainConfig.addDefault("token", "<botToken>");
+                this.mainConfig.addDefault("premium_bots", Arrays.asList("1234:15701557", "1235:3141152",
+                        "1234:8934895", "12356:13836756"));
+                this.mainConfig.addDefault("premium_bot_links", Arrays.asList(
+                        "https://discord.com/api/oauth2/authorize?client_id=1153609192234553354&permissions=556235091264&scope=bot%20applications.commands",
+                        "https://discord.com/api/oauth2/authorize?client_id=1153702608805056522&permissions=556235091264&scope=applications.commands%20bot",
+                        "https://discord.com/api/oauth2/authorize?client_id=1153703545816744037&permissions=556235091264&scope=bot%20applications.commands",
+                        "https://discord.com/api/oauth2/authorize?client_id=1153704213910655137&permissions=556235091264&scope=applications.commands%20bot"));
                 this.mainConfig.addDefault("debug", true);
 //                spotify:
 //                enabled: true

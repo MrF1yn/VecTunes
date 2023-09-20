@@ -23,9 +23,10 @@ public class YouTubeSearchManager {
     private static HashMap<String, String> CACHED_SEARCHES = new HashMap<>();
     public static HashMap<Long, List<FavouriteTrack>> FAVOURITES = new HashMap<>();
     public static HashMap<Long, SpotifyCredentials> GUILD_SPOTIFY_CREDENTIALS = new HashMap<>();
+    public static ArrayList<Long> PREMIUM_GUILDS = new ArrayList<>();
     private TrackSearchClient<YouTubeTrack> explicitClient = new YouTubeClient();
 
-    public static void saveAutoCompletes() {
+    public static void savePersistentData() {
         try {
             File file = new File("AutoCompletes.dat");
             if (!file.exists()) {
@@ -57,6 +58,16 @@ public class YouTubeSearchManager {
             oos.close();
             fos.close();
             System.out.println("Saved SpotifyCredentials!");
+            file = new File("PremiumGuilds.dat");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            fos = new FileOutputStream("PremiumGuilds.dat");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(PREMIUM_GUILDS);
+            oos.close();
+            fos.close();
+            System.out.println("Saved PremiumGuilds!");
         }
         catch (Exception ioe) {
             ioe.printStackTrace();
@@ -68,7 +79,7 @@ public class YouTubeSearchManager {
             File file = new File("AutoCompletes.dat");
             if (!file.exists()) {
                 file.createNewFile();
-                YouTubeSearchManager.saveAutoCompletes();
+                YouTubeSearchManager.savePersistentData();
             }
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -82,12 +93,30 @@ public class YouTubeSearchManager {
         }
     }
 
+    public static void readPremiumGuilds() {
+        try {
+            File file = new File("PremiumGuilds.dat");
+            if (!file.exists()) {
+                file.createNewFile();
+                YouTubeSearchManager.savePersistentData();
+            }
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            PREMIUM_GUILDS = (ArrayList<Long>) ois.readObject();
+            ois.close();
+            fis.close();
+            System.out.println("Loaded PremiumGuilds!");
+        } catch (Exception ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
     public static void readFavourites() {
         try {
             File file = new File("Favourites.dat");
             if (!file.exists()) {
                 file.createNewFile();
-                YouTubeSearchManager.saveAutoCompletes();
+                YouTubeSearchManager.savePersistentData();
             }
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -106,7 +135,7 @@ public class YouTubeSearchManager {
             File file = new File("SpotifyCredentials.dat");
             if (!file.exists()) {
                 file.createNewFile();
-                YouTubeSearchManager.saveAutoCompletes();
+                YouTubeSearchManager.savePersistentData();
             }
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);

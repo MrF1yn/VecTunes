@@ -18,6 +18,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
@@ -57,11 +59,12 @@ public class GUIManager {
 
     public void update() {
         try {
-            Guild guild = Bot.jda.getGuildById(this.guildID);
+            Guild guild = trackManager.getBot().jda.getGuildById(this.guildID);
             if (guild == null) {
                 return;
             }
-            TextChannel channel = guild.getTextChannelById(this.channelID);
+            GuildMessageChannel channel = guild.getChannelById(GuildMessageChannel.class, this.channelID);
+
             if (channel == null) {
                 return;
             }
@@ -123,11 +126,11 @@ public class GUIManager {
         if (embed == null) {
             return;
         }
-        Guild guild = Bot.jda.getGuildById(this.guildID);
+        Guild guild = trackManager.getBot().jda.getGuildById(this.guildID);
         if (guild == null) {
             return;
         }
-        TextChannel channel = guild.getTextChannelById(this.channelID);
+        GuildMessageChannel channel = guild.getChannelById(GuildMessageChannel.class,this.channelID);
         if (channel == null) {
             return;
         }
@@ -151,11 +154,11 @@ public class GUIManager {
         if (this.embedID == 0L) {
             return;
         }
-        Guild guild = Bot.jda.getGuildById(this.guildID);
+        Guild guild = trackManager.getBot().jda.getGuildById(this.guildID);
         if (guild == null) {
             return;
         }
-        TextChannel channel = guild.getTextChannelById(this.channelID);
+        GuildMessageChannel channel = guild.getChannelById(GuildMessageChannel.class,this.channelID);
         if (channel == null) {
             return;
         }
@@ -280,7 +283,7 @@ public class GUIManager {
             String url = "https://www.vectlabs.xyz/";
             if (currTrack != null) {
                 title = currTrack.getInfo().title;
-                requester = Bot.jda.getUserById(this.trackManager.getTRACK_REQUESTER().get(currTrack.getIdentifier())).getAsMention();
+                requester = VecTunes.mainBot.jda.getUserById(this.trackManager.getTRACK_REQUESTER().get(currTrack.getIdentifier())).getAsMention();
                 url = currTrack.getInfo().uri;
                 artist = currTrack.getInfo().author;
                 duration = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(currTrack.getDuration()) % 60L, TimeUnit.MILLISECONDS.toSeconds(currTrack.getDuration()) % 60L);
@@ -338,6 +341,12 @@ public class GUIManager {
         }
         if ((colorObj = json.getAsJsonPrimitive("color")) != null) {
             Color color = new Color(colorObj.getAsInt());
+            if(trackManager.getBot().isPremium()){
+                color = new Color(Integer.parseInt(VecTunes.configManager.getMainConfig().getStringList("premium_bots").get(
+                        VecTunes.premiumBots.indexOf(trackManager.getBot())).split(":")[1]
+                ));
+            }
+
             embedBuilder.setColor(color);
         }
         if ((fieldsArray = json.getAsJsonArray("fields")) != null) {

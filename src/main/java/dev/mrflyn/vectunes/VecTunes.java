@@ -3,7 +3,6 @@ package dev.mrflyn.vectunes;
 
 
 
-import com.github.topi314.lavasrc.applemusic.AppleMusicSourceManager;
 import com.github.topi314.lavasrc.spotify.SpotifySourceManager;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,13 +27,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -51,9 +45,13 @@ import org.apache.http.message.BasicHeader;
 import org.simpleyaml.configuration.file.YamlFile;
 
 public class VecTunes {
+    //TODO: When premium bot in vc and main bot not in vc, on /play main bot joins but technically the premium bot
+    // which is already there in the vc should queue the song.
+    //TODO: GUI interaction of the premium bots dont work.
     private static DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     public static ConfigManager configManager;
-    public static Bot bot;
+    public static Bot mainBot;
+    public static ArrayList<Bot> premiumBots = new ArrayList<>();
     public static AudioPlayerManager playerManager;
     public static HashMap<String, String> EMBED_JSONS;
     public static YouTubeSearchManager youTubeSearchManager;
@@ -69,6 +67,7 @@ public class VecTunes {
         YouTubeSearchManager.readAutoCompletes();
         YouTubeSearchManager.readFavourites();
         YouTubeSearchManager.readSpotifyCredentials();
+        YouTubeSearchManager.readPremiumGuilds();
         youTubeSearchManager = new YouTubeSearchManager();
         youTubeSearchManager.validateAutoCompletes();
         EMBED_JSONS = new HashMap<>();
@@ -78,7 +77,7 @@ public class VecTunes {
 
             @Override
             public void run() {
-                YouTubeSearchManager.saveAutoCompletes();
+                YouTubeSearchManager.savePersistentData();
             }
         });
         new Thread(){
@@ -141,8 +140,13 @@ public class VecTunes {
         playerManager.registerSourceManager(new LocalAudioSourceManager());
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
-        bot = new Bot(configManager.getMainConfig().getString("token"));
-        bot.enable();
+        mainBot = new Bot(configManager.getMainConfig().getString("token"));
+        mainBot.enable();
+        for(String token : configManager.getMainConfig().getStringList("premium_bots")){
+            Bot bot = new Bot(token.split(":")[0], true);
+            bot.enable();
+            premiumBots.add(bot);
+        }
     }
 
     public static <T> void log(T msg) {

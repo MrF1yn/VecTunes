@@ -5,19 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5f02083-233f-4a66-bbfd-e315932b3519" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/PremiumCommandListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/ConfigManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/PresenceListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/PresenceListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesTrackManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesTrackManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/SpotifySetupCommandListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/SpotifySetupCommandListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/ButtonListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/ButtonListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/PlayCommandListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/PlayCommandListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YoutubeMusicSearchManager.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +156,14 @@
       <workItem from="1692089158618" duration="2569000" />
       <workItem from="1692091827538" duration="132000" />
       <workItem from="1692091968939" duration="795000" />
-      <workItem from="1692094361954" duration="2943000" />
+      <workItem from="1692094361954" duration="3527000" />
+      <workItem from="1693248270902" duration="860000" />
+      <workItem from="1695039614223" duration="1266000" />
+      <workItem from="1695045972770" duration="242000" />
+      <workItem from="1695109602835" duration="6555000" />
+      <workItem from="1695124479282" duration="4363000" />
+      <workItem from="1695131441853" duration="4264000" />
+      <workItem from="1695136891252" duration="7461000" />
     </task>
     <servers />
   </component>

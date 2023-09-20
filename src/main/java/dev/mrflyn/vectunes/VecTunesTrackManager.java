@@ -18,6 +18,7 @@ import java.util.*;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
 
 public class VecTunesTrackManager extends AudioEventAdapter {
     private LinkedList<AudioTrack> trackQueue;
@@ -33,21 +34,27 @@ public class VecTunesTrackManager extends AudioEventAdapter {
     private boolean shuffle;
     private long guildID;
     private GUIManager guiManager;
+    private Bot bot;
     Random random = new Random();
 
-    public VecTunesTrackManager(AudioPlayer player, long channelID, long guildID, long commandChannelID) {
+    public VecTunesTrackManager(AudioPlayer player, long channelID, long guildID, long commandChannelID, Bot bot) {
         this.channelID = channelID;
         this.commandChannelID = commandChannelID;
         this.trackQueue = new LinkedList<AudioTrack>();
         this.persistentTrackQueue = new ArrayList<AudioTrack>();
         this.player = player;
         this.guildID = guildID;
+        this.bot = bot;
         this.guiManager = new GUIManager(this, commandChannelID, guildID);
-        VecTunes.bot.CHANNEL_TO_TUNES.put(channelID, this);
+        bot.CHANNEL_TO_TUNES.put(channelID, this);
+    }
+
+    public Bot getBot() {
+        return bot;
     }
 
     public String getAudioChannelName() {
-        return Bot.jda.getGuildById(this.guildID).getVoiceChannelById(this.channelID).getAsMention();
+        return VecTunes.mainBot.jda.getGuildById(this.guildID).getVoiceChannelById(this.channelID).getAsMention();
     }
 
     public HashMap<String, Long> getTRACK_REQUESTER() {
@@ -57,11 +64,11 @@ public class VecTunesTrackManager extends AudioEventAdapter {
     public void destroy() {
         this.guiManager.destroy();
         this.player.destroy();
-        Guild guild = Bot.jda.getGuildById(this.guildID);
+        Guild guild = bot.jda.getGuildById(this.guildID);
         if (guild != null) {
             guild.getAudioManager().closeAudioConnection();
         }
-        VecTunes.bot.CHANNEL_TO_TUNES.remove(this.channelID);
+        bot.CHANNEL_TO_TUNES.remove(this.channelID);
     }
 
     public AudioPlayer getPlayer() {
@@ -171,10 +178,16 @@ public class VecTunesTrackManager extends AudioEventAdapter {
         this.guiManager.update();
     }
 
-    public void queue(final String song, final Long requester, TextChannel channel, boolean force) {
+    public void queue(final String song, final Long requester, GuildMessageChannel channel, boolean force) {
         if (this.requestedTracks.contains(song)) {
             return;
         }
+
+        String controllerLink = "https://discord.com/channels/<guild>/<channel>/<message>"
+                .replace("<guild>", String.valueOf(guildID))
+                .replace("<channel>", channel.getId());
+
+
         this.requestedTracks.add(song);
         VecTunes.playerManager.loadItem(song, new AudioLoadResultHandler(){
 
@@ -188,12 +201,15 @@ public class VecTunesTrackManager extends AudioEventAdapter {
                 }
                 VecTunes.log(track.getIdentifier() + " added to queue!");
                 if (channel!=null){
-                    channel.sendMessage(track.getInfo().title +" added to Queue!").queue();
+                    channel.sendMessage(track.getInfo().title +" added to Queue! Control it from:").queue(s->{
+                        s.editMessage(track.getInfo().title +" added to Queue! Control it from: "+
+                                controllerLink.replace("<message>", s.getId())).queue();
+                    });
                 }
                 VecTunesTrackManager.this.trackQueue.add(track);
                 VecTunesTrackManager.this.persistentTrackQueue.add(track.makeClone());
 
-
+                guiManager.update();
                 if (VecTunesTrackManager.this.player.getPlayingTrack() == null && !VecTunesTrackManager.this.trackQueue.isEmpty()) {
                     VecTunesTrackManager.this.player.playTrack(VecTunesTrackManager.this.trackQueue.poll());
                 }
@@ -204,7 +220,10 @@ public class VecTunesTrackManager extends AudioEventAdapter {
             public void playlistLoaded(AudioPlaylist playlist) {
                 VecTunes.log(playlist.getName() + " playlist added to queue!");
                 if (channel!=null){
-                    channel.sendMessage(playlist.getName() +" playlist added to Queue!").queue();
+                    channel.sendMessage(playlist.getName() +"playlist added to Queue! Control it from:").queue(s->{
+                        s.editMessage(playlist.getName() +"playlist added to Queue! Control it from: "+
+                                controllerLink.replace("<message>", s.getId())).queue();
+                    });
                 }
                 if (force){
                     VecTunesTrackManager.this.player.stopTrack();
@@ -218,6 +237,7 @@ public class VecTunesTrackManager extends AudioEventAdapter {
                     VecTunesTrackManager.this.persistentTrackQueue.add(t.makeClone());
                     VecTunesTrackManager.this.TRACK_REQUESTER.put(t.getIdentifier(), requester);
                 });
+                guiManager.update();
                 if (VecTunesTrackManager.this.player.getPlayingTrack() == null && !VecTunesTrackManager.this.trackQueue.isEmpty()) {
                     VecTunes.log("STARTED");
                     VecTunesTrackManager.this.player.playTrack(VecTunesTrackManager.this.trackQueue.poll());
@@ -306,23 +326,23 @@ public class VecTunesTrackManager extends AudioEventAdapter {
                     if (track instanceof SpotifyAudioTrack) {
                         SpotifyAudioTrack spotifyAudioTrack = (SpotifyAudioTrack)track;
                         for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayList(spotifyAudioTrack, guildID)) {
-                            this.queue(guildID+" "+tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong(), null, false);
+                            this.queue(guildID+" "+tracks.getInfo().uri, bot.jda.getSelfUser().getIdLong(), null, false);
                         }
                         return;
                     }
                     for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author, guildID)) {
-                        this.queue(guildID+" "+tracks.getInfo().uri, Bot.jda.getSelfUser().getIdLong(), null, false);
+                        this.queue(guildID+" "+tracks.getInfo().uri, bot.jda.getSelfUser().getIdLong(), null, false);
                     }
                     return;
                 }
                 if (!(track instanceof YoutubeAudioTrack)) {
                     for (YouTubeTrack ytTrack : VecTunes.youTubeSearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author)) {
-                        this.queue(ytTrack.getUrl(), Bot.jda.getSelfUser().getIdLong(), null, false);
+                        this.queue(ytTrack.getUrl(), bot.jda.getSelfUser().getIdLong(), null, false);
                     }
                     return;
                 }
                 for (YouTubeTrack ytTrack : VecTunes.youTubeSearchManager.getAutoPlayList(track.getInfo().identifier)) {
-                    this.queue(ytTrack.getUrl(), Bot.jda.getSelfUser().getIdLong(), null, false);
+                    this.queue(ytTrack.getUrl(), bot.jda.getSelfUser().getIdLong(), null, false);
                 }
                 return;
             }

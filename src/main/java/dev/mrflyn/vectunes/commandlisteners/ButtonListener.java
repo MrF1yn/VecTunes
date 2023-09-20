@@ -3,6 +3,7 @@ package dev.mrflyn.vectunes.commandlisteners;
 
 import dev.mrflyn.vectunes.Bot;
 import dev.mrflyn.vectunes.GUIManager;
+import dev.mrflyn.vectunes.VecTunes;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -14,6 +15,10 @@ extends ListenerAdapter {
         if (event.getGuild() == null) {
             return;
         }
+
+        Bot bot = Bot.JDA_TO_BOT.get(event.getJDA());
+        if (bot==null)return;
+
         if (event.getMember() == null) {
             return;
         }
@@ -26,7 +31,7 @@ extends ListenerAdapter {
         if (event.getMember().getVoiceState().getChannel() == null) {
             return;
         }
-        if (!event.getMember().getVoiceState().getChannel().getMembers().contains(event.getGuild().getMember(Bot.jda.getSelfUser()))) {
+        if (!event.getMember().getVoiceState().getChannel().getMembers().contains(event.getGuild().getMember(bot.jda.getSelfUser()))) {
             return;
         }
         String[] ids = event.getComponentId().split(":");
@@ -37,6 +42,7 @@ extends ListenerAdapter {
         if (guiManager == null) {
             return;
         }
+        VecTunes.log("BUTTON INTERACTION");
         guiManager.onButtonClick(event, ids[1]);
     }
 
@@ -45,6 +51,10 @@ extends ListenerAdapter {
         if (event.getGuild() == null) {
             return;
         }
+
+        Bot bot = Bot.JDA_TO_BOT.get(event.getJDA());
+        if (bot==null)return;
+
         if (event.getMember() == null) {
             return;
         }
@@ -57,7 +67,7 @@ extends ListenerAdapter {
         if (event.getMember().getVoiceState().getChannel() == null) {
             return;
         }
-        if (!event.getMember().getVoiceState().getChannel().getMembers().contains(event.getGuild().getMember(Bot.jda.getSelfUser()))) {
+        if (!event.getMember().getVoiceState().getChannel().getMembers().contains(event.getGuild().getMember(bot.jda.getSelfUser()))) {
             return;
         }
         String[] ids = event.getModalId().split(":");
