@@ -95,7 +95,7 @@ extends ListenerAdapter {
 
             if (vc.getMembers().contains(guild.getMember(jda.getSelfUser())) && Bot.JDA_TO_BOT.get(jda).CHANNEL_TO_TUNES.containsKey(vc.getIdLong())) {
                 VecTunes.log("EXISTING QUEUE");
-                Bot.JDA_TO_BOT.get(jda).CHANNEL_TO_TUNES.get(vc.getIdLong()).queue(link, member.getIdLong(), event.getChannel().asTextChannel(), forcePlay);
+                Bot.JDA_TO_BOT.get(jda).CHANNEL_TO_TUNES.get(vc.getIdLong()).queue(link, member.getIdLong(), event.getChannel().asGuildMessageChannel(), forcePlay);
                 return;
             }
             AudioPlayer player = VecTunes.playerManager.createPlayer();

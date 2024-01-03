@@ -182,10 +182,13 @@ public class VecTunesTrackManager extends AudioEventAdapter {
         if (this.requestedTracks.contains(song)) {
             return;
         }
-
-        String controllerLink = "https://discord.com/channels/<guild>/<channel>/<message>"
-                .replace("<guild>", String.valueOf(guildID))
-                .replace("<channel>", channel.getId());
+        String controllerLinkTemp = "";
+        if(channel!=null) {
+            controllerLinkTemp = "https://discord.com/channels/<guild>/<channel>/<message>"
+                    .replace("<guild>", String.valueOf(guildID))
+                    .replace("<channel>", channel.getId());
+        }
+        String controllerLink = controllerLinkTemp;
 
 
         this.requestedTracks.add(song);
