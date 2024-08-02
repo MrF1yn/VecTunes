@@ -37,9 +37,12 @@ public class GUIManager {
     private long guildID;
     private long embedID = 0L;
     private String uuid;
+
+    private long lastUpdated;
     Gson gson = new GsonBuilder().setLenient().create();
 
     public GUIManager(VecTunesTrackManager trackManager, long channelID, long guildID) {
+        this.lastUpdated = System.currentTimeMillis();
         this.trackManager = trackManager;
         this.channelID = channelID;
         this.guildID = guildID;
@@ -72,6 +75,7 @@ public class GUIManager {
             if (embed == null) {
                 return;
             }
+            if(System.currentTimeMillis() - lastUpdated < 500)return;
             Button playPause = this.trackManager.getPlayer().isPaused() ? this.parseButton("play") : this.parseButton("pause");
             Button stop = this.parseButton("stop");
             Button autoplay = this.trackManager.isAutoPlay() ? this.parseButton("autoplay_on") : this.parseButton("autoplay_off");
@@ -89,7 +93,7 @@ public class GUIManager {
                     channel.editMessageComponentsById(this.embedID,
                             ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
                             ActionRow.of(rewind, playPause, forward, volume),
-                            ActionRow.of(shuffle, jump)).queue(s1->{},err1->{
+                            ActionRow.of(shuffle, jump, autoplay)).queue(s1->{},err1->{
 //                                err1.printStackTrace();
                     });
 
@@ -105,7 +109,7 @@ public class GUIManager {
             channel.sendMessageEmbeds(embed).addComponents(
                     ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
                     ActionRow.of(rewind, playPause, forward, volume),
-                    ActionRow.of(shuffle, jump)).queue(message -> {
+                    ActionRow.of(shuffle, jump, autoplay)).queue(message -> {
                 this.embedID = message.getIdLong();
                 update();
             }, err -> {

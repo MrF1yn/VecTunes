@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5f02083-233f-4a66-bbfd-e315932b3519" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/Bot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/PresenceListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/PresenceListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesTrackManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunesTrackManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/commandlisteners/SpotifySetupCommandListener.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/YouTubeSearchManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +182,7 @@
       <workItem from="1713722706682" duration="222000" />
       <workItem from="1721813097743" duration="95000" />
       <workItem from="1722631010728" duration="37000" />
-      <workItem from="1722631056669" duration="2172000" />
+      <workItem from="1722631056669" duration="6292000" />
     </task>
     <servers />
   </component>

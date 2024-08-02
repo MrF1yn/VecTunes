@@ -115,7 +115,7 @@ public class VecTunes {
                     configManager.getMainConfig().getString("spotify.country_code"), playerManager);
             playerManager.registerSourceManager(spotifySourceManager);
 //
-//            spotifySearchManager = new SpotifySearchManager(spotifySourceManager);
+            spotifySearchManager = new SpotifySearchManager(spotifySourceManager);
 //        }
 //        playerManager.registerSourceManager(new AppleMusicSourceManager(null, "us", playerManager));
         playerManager.registerSourceManager(new HttpAudioSourceManager());
