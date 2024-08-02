@@ -68,7 +68,7 @@ public class SpotifySearchManager {
         String query =
 //                "seed_artists=" + track.getInfo().author+"&"+
                 "seed_tracks="+track.getInfo().identifier+"&"+
-                "limit=5"+"&"+
+                "limit=2"+"&"+
                 "market="+market;
 //                "max_acousticness="+trackFeatures.getAcousticness()+"&"+
 //                "max_danceability="+trackFeatures.getDanceability()+"&"+
