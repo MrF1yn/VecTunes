@@ -88,7 +88,7 @@ public class GUIManager {
                 channel.editMessageEmbedsById(this.embedID, embed).queue(s->{
                     channel.editMessageComponentsById(this.embedID,
                             ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
-                            ActionRow.of(rewind, playPause, forward, autoplay, volume),
+                            ActionRow.of(rewind, playPause, forward, volume),
                             ActionRow.of(shuffle, jump)).queue(s1->{},err1->{
 //                                err1.printStackTrace();
                     });
@@ -104,7 +104,7 @@ public class GUIManager {
             }
             channel.sendMessageEmbeds(embed).addComponents(
                     ActionRow.of(skip, stop, queueLoop, songLoop, favourite),
-                    ActionRow.of(rewind, playPause, forward, autoplay, volume),
+                    ActionRow.of(rewind, playPause, forward, volume),
                     ActionRow.of(shuffle, jump)).queue(message -> {
                 this.embedID = message.getIdLong();
                 update();
@@ -162,7 +162,7 @@ public class GUIManager {
         if (channel == null) {
             return;
         }
-        channel.deleteMessageById(this.embedID).queue();
+//        channel.deleteMessageById(this.embedID).queue();
         this.embedID = 0L;
     }
 
@@ -290,7 +290,7 @@ public class GUIManager {
                 if (currTrack.getSourceManager().getSourceName().equals("youtube")) {
                     thumbnail = "https://img.youtube.com/vi/" + currTrack.getInfo().identifier + "/0.jpg";
                 } else if (currTrack instanceof SpotifyAudioTrack) {
-                    thumbnail = currTrack.getInfo().artworkUrl;
+                    thumbnail = ((SpotifyAudioTrack) currTrack).getArtistArtworkUrl();
                 }
             }
             if (thumbnail == null)

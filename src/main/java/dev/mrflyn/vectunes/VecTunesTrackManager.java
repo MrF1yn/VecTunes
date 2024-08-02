@@ -12,7 +12,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
-import io.sfrei.tracksearch.tracks.YouTubeTrack;
+//import io.sfrei.tracksearch.tracks.YouTubeTrack;
 
 import java.util.*;
 
@@ -62,12 +62,13 @@ public class VecTunesTrackManager extends AudioEventAdapter {
     }
 
     public void destroy() {
-        this.guiManager.destroy();
         this.player.destroy();
         Guild guild = bot.jda.getGuildById(this.guildID);
         if (guild != null) {
             guild.getAudioManager().closeAudioConnection();
         }
+
+        this.guiManager.destroy();
         bot.CHANNEL_TO_TUNES.remove(this.channelID);
     }
 
@@ -324,31 +325,32 @@ public class VecTunesTrackManager extends AudioEventAdapter {
                 this.persistentTrackQueue.forEach(t -> this.trackQueue.add(t.makeClone()));
                 audio = this.trackQueue.poll();
                 VecTunes.log("Looping queue!");
-            } else if (this.autoPlay) {
-                if (VecTunes.spotifySearchManager != null && YouTubeSearchManager.GUILD_SPOTIFY_CREDENTIALS.containsKey(guildID)) {
-                    if (track instanceof SpotifyAudioTrack) {
-                        SpotifyAudioTrack spotifyAudioTrack = (SpotifyAudioTrack)track;
-                        for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayList(spotifyAudioTrack, guildID)) {
-                            this.queue(guildID+" "+tracks.getInfo().uri, bot.jda.getSelfUser().getIdLong(), null, false);
-                        }
-                        return;
-                    }
-                    for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author, guildID)) {
-                        this.queue(guildID+" "+tracks.getInfo().uri, bot.jda.getSelfUser().getIdLong(), null, false);
-                    }
-                    return;
-                }
-                if (!(track instanceof YoutubeAudioTrack)) {
-                    for (YouTubeTrack ytTrack : VecTunes.youTubeSearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author)) {
-                        this.queue(ytTrack.getUrl(), bot.jda.getSelfUser().getIdLong(), null, false);
-                    }
-                    return;
-                }
-                for (YouTubeTrack ytTrack : VecTunes.youTubeSearchManager.getAutoPlayList(track.getInfo().identifier)) {
-                    this.queue(ytTrack.getUrl(), bot.jda.getSelfUser().getIdLong(), null, false);
-                }
-                return;
             }
+//            else if (this.autoPlay) {
+//                if (VecTunes.spotifySearchManager != null && YouTubeSearchManager.GUILD_SPOTIFY_CREDENTIALS.containsKey(guildID)) {
+//                    if (track instanceof SpotifyAudioTrack) {
+//                        SpotifyAudioTrack spotifyAudioTrack = (SpotifyAudioTrack)track;
+//                        for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayList(spotifyAudioTrack, guildID)) {
+//                            this.queue(guildID+" "+tracks.getInfo().uri, bot.jda.getSelfUser().getIdLong(), null, false);
+//                        }
+//                        return;
+//                    }
+//                    for (SpotifyAudioTrack tracks : VecTunes.spotifySearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author, guildID)) {
+//                        this.queue(guildID+" "+tracks.getInfo().uri, bot.jda.getSelfUser().getIdLong(), null, false);
+//                    }
+//                    return;
+//                }
+//                if (!(track instanceof YoutubeAudioTrack)) {
+//                    for (YouTubeTrack ytTrack : VecTunes.youTubeSearchManager.getAutoPlayListFromName(track.getInfo().title + " " + track.getInfo().author)) {
+//                        this.queue(ytTrack.getUrl(), bot.jda.getSelfUser().getIdLong(), null, false);
+//                    }
+//                    return;
+//                }
+//                for (YouTubeTrack ytTrack : VecTunes.youTubeSearchManager.getAutoPlayList(track.getInfo().identifier)) {
+//                    this.queue(ytTrack.getUrl(), bot.jda.getSelfUser().getIdLong(), null, false);
+//                }
+//                return;
+//            }
         }
             player.playTrack(audio);
             VecTunes.log("playing " + audio.getIdentifier());

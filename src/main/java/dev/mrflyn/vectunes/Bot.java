@@ -8,7 +8,6 @@ import dev.mrflyn.vectunes.commandlisteners.PlayCommandListener;
 import java.util.HashMap;
 
 import dev.mrflyn.vectunes.commandlisteners.PremiumCommandListener;
-import dev.mrflyn.vectunes.commandlisteners.SpotifySetupCommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -65,7 +64,6 @@ public class Bot {
             if (!premium){
                 builder.addEventListeners(
                         new PlayCommandListener(),
-                        new SpotifySetupCommandListener(),
                         new PremiumCommandListener()
                 );
             }

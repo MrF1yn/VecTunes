@@ -2,7 +2,6 @@
 package dev.mrflyn.vectunes;
 
 
-import com.github.topi314.lavasrc.spotify.SpotifyCredentials;
 
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
 import net.dv8tion.jda.api.entities.Activity;
@@ -29,11 +28,6 @@ extends ListenerAdapter {
         if(Bot.JDA_TO_BOT.get(event.getJDA()).isPremium() && !YouTubeSearchManager.PREMIUM_GUILDS.contains(event.getGuild().getIdLong())){
             event.getGuild().leave().queue();
         }
-        SpotifyCredentials creds = YouTubeSearchManager.GUILD_SPOTIFY_CREDENTIALS.get(event.getGuild().getIdLong());
-        if (creds==null)return;
-
-        VecTunes.spotifySearchManager.getSpotifySourceManager()
-                .registerSpotifyCredentials(creds.getClientID(),creds.getClientSecret(),creds.getCountryCode(),event.getGuild().getIdLong());
 
     }
 
@@ -48,8 +42,6 @@ extends ListenerAdapter {
     @Override
     public void onGuildLeave(GuildLeaveEvent event) {
         event.getJDA().getPresence().setActivity(Activity.playing("Tunes in " + event.getJDA().getGuilds().size() + " Servers."));
-        VecTunes.spotifySearchManager.getSpotifySourceManager()
-                .unregisterSpotifyCredentials(event.getGuild().getIdLong());
     }
 
     @Override

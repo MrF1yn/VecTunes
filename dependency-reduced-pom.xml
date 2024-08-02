@@ -10,7 +10,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.3.1-SNAPSHOT</version>
+        <version>3.5.2</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -31,14 +31,19 @@
   </build>
   <repositories>
     <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-      <id>OSS Sonatype snapshots</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <id>arbjergDev-snapshots</id>
+      <name>Lavalink Repository</name>
+      <url>https://maven.lavalink.dev/snapshots</url>
+    </repository>
+    <repository>
+      <id>arbjergDev-releases</id>
+      <name>Lavalink Repository</name>
+      <url>https://maven.lavalink.dev/releases</url>
+    </repository>
+    <repository>
+      <id>TopiWTF-releases</id>
+      <name>Topis Maven Repo</name>
+      <url>https://maven.topi.wtf/releases</url>
     </repository>
     <repository>
       <id>jitpack</id>
@@ -50,7 +55,7 @@
     </repository>
   </repositories>
   <properties>
-    <maven.compiler.target>11</maven.compiler.target>
-    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
   </properties>
 </project>

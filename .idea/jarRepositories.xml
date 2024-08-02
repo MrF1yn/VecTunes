@@ -9,12 +9,22 @@
     <remote-repository>
       <option name="id" value="OSS Sonatype snapshots" />
       <option name="name" value="OSS Sonatype snapshots" />
+      <option name="url" value="https://s01.oss.sonatype.org/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="OSS Sonatype snapshots" />
+      <option name="name" value="OSS Sonatype snapshots" />
       <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="jitpack" />
       <option name="name" value="jitpack" />
       <option name="url" value="https://jitpack.io" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="arbjergDev-snapshots" />
+      <option name="name" value="Lavalink Repository" />
+      <option name="url" value="https://maven.lavalink.dev/snapshots" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
@@ -27,9 +37,19 @@
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="arbjergDev-snapshots" />
+      <option name="name" value="Lavalink Repository" />
+      <option name="url" value="https://maven.lavalink.dev/releases" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="mattmalec-repo" />
       <option name="name" value="mattmalec-repo" />
       <option name="url" value="https://repo.mattmalec.com/repository/releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="TopiWTF-releases" />
+      <option name="name" value="Topis Maven Repo" />
+      <option name="url" value="https://maven.topi.wtf/releases" />
     </remote-repository>
   </component>
 </project>

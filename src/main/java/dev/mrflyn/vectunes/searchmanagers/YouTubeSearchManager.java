@@ -2,13 +2,13 @@
 package dev.mrflyn.vectunes.searchmanagers;
 
 
-import com.github.topi314.lavasrc.spotify.SpotifyCredentials;
 import dev.mrflyn.vectunes.FavouriteTrack;
 import dev.mrflyn.vectunes.StringUtil;
 import io.sfrei.tracksearch.clients.TrackSearchClient;
 import io.sfrei.tracksearch.clients.youtube.YouTubeClient;
 import io.sfrei.tracksearch.tracks.TrackList;
 import io.sfrei.tracksearch.tracks.YouTubeTrack;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,10 +22,9 @@ import java.util.List;
 public class YouTubeSearchManager {
     private static HashMap<String, String> CACHED_SEARCHES = new HashMap<>();
     public static HashMap<Long, List<FavouriteTrack>> FAVOURITES = new HashMap<>();
-    public static HashMap<Long, SpotifyCredentials> GUILD_SPOTIFY_CREDENTIALS = new HashMap<>();
     public static ArrayList<Long> PREMIUM_GUILDS = new ArrayList<>();
-    private TrackSearchClient<YouTubeTrack> explicitClient = new YouTubeClient();
 
+    public static TrackSearchClient<YouTubeTrack> explicitClient = new YouTubeClient();
     public static void savePersistentData() {
         try {
             File file = new File("AutoCompletes.dat");
@@ -52,12 +51,6 @@ public class YouTubeSearchManager {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            fos = new FileOutputStream("SpotifyCredentials.dat");
-            oos = new ObjectOutputStream(fos);
-            oos.writeObject(GUILD_SPOTIFY_CREDENTIALS);
-            oos.close();
-            fos.close();
-            System.out.println("Saved SpotifyCredentials!");
             file = new File("PremiumGuilds.dat");
             if (!file.exists()) {
                 file.createNewFile();
@@ -139,7 +132,7 @@ public class YouTubeSearchManager {
             }
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            GUILD_SPOTIFY_CREDENTIALS = (HashMap) ois.readObject();
+//            GUILD_SPOTIFY_CREDENTIALS = (HashMap) ois.readObject();
             ois.close();
             fis.close();
 
@@ -156,11 +149,11 @@ public class YouTubeSearchManager {
         try {
             String link = CACHED_SEARCHES.get(query);
             if (link == null) {
-                TrackList<YouTubeTrack> tracksForSearch = this.explicitClient.getTracksForSearch(query);
+                TrackList<YouTubeTrack> tracksForSearch = explicitClient.getTracksForSearch(query);
                 if (tracksForSearch.isEmpty()) {
                     return null;
                 }
-                link = tracksForSearch.getTracks().get(0).getUrl();
+                link = tracksForSearch.get(0).getUrl();
             }
             return link;
         }
@@ -170,47 +163,47 @@ public class YouTubeSearchManager {
         }
     }
 
-    public List<YouTubeTrack> getAutoPlayList(String videoID) {
-        try {
-            TrackList<YouTubeTrack> tracksForSearch = this.explicitClient.getRelatedTracks(videoID);
-            if (tracksForSearch.isEmpty()) {
-                return new ArrayList<YouTubeTrack>();
-            }
-            return tracksForSearch.getTracks();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<YouTubeTrack>();
-        }
-    }
+//    public List<YouTubeTrack> getAutoPlayList(String videoID) {
+//        try {
+//            TrackList<YouTubeTrack> tracksForSearch = explicitClient.getRelatedTracks(videoID);
+//            if (tracksForSearch.isEmpty()) {
+//                return new ArrayList<YouTubeTrack>();
+//            }
+//            return tracksForSearch.getTracks();
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//            return new ArrayList<YouTubeTrack>();
+//        }
+//    }
 
-    public List<YouTubeTrack> getAutoPlayListFromName(String name) {
-        try {
-            TrackList<YouTubeTrack> tracksForSearch = this.explicitClient.getTracksForSearch(name);
-            if (tracksForSearch.isEmpty()) {
-                return new ArrayList<YouTubeTrack>();
-            }
-            String[] rawID = tracksForSearch.getTracks().get(0).getUrl().split("v=");
-            if (rawID.length < 2) {
-                return new ArrayList<YouTubeTrack>();
-            }
-            TrackList<YouTubeTrack> relatedTracks = this.explicitClient.getRelatedTracks(rawID[1]);
-            if (relatedTracks.isEmpty()) {
-                return new ArrayList<YouTubeTrack>();
-            }
-            return relatedTracks.getTracks();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<YouTubeTrack>();
-        }
-    }
+//    public List<YouTubeTrack> getAutoPlayListFromName(String name) {
+//        try {
+//            TrackList<YouTubeTrack> tracksForSearch = this.explicitClient.getTracksForSearch(name);
+//            if (tracksForSearch.isEmpty()) {
+//                return new ArrayList<YouTubeTrack>();
+//            }
+//            String[] rawID = tracksForSearch.getTracks().get(0).getUrl().split("v=");
+//            if (rawID.length < 2) {
+//                return new ArrayList<YouTubeTrack>();
+//            }
+//            TrackList<YouTubeTrack> relatedTracks = this.explicitClient.getRelatedTracks(rawID[1]);
+//            if (relatedTracks.isEmpty()) {
+//                return new ArrayList<YouTubeTrack>();
+//            }
+//            return relatedTracks.getTracks();
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//            return new ArrayList<YouTubeTrack>();
+//        }
+//    }
 
     public List<String> getTitlesFromQuery(String query) {
         ArrayList<String> titles = new ArrayList<String>();
         try {
-            TrackList<YouTubeTrack> tracksForSearch = this.explicitClient.getTracksForSearch(query);
-            for (YouTubeTrack title : tracksForSearch.getTracks()) {
+            TrackList<YouTubeTrack> tracksForSearch = explicitClient.getTracksForSearch(query);
+            for (YouTubeTrack title : tracksForSearch) {
                 titles.add(title.getTitle());
                 CACHED_SEARCHES.put(title.getTitle(), title.getUrl());
             }
