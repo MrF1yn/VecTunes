@@ -75,7 +75,7 @@ public class GUIManager {
             if (embed == null) {
                 return;
             }
-            if(System.currentTimeMillis() - lastUpdated < 500)return;
+            if(System.currentTimeMillis() - lastUpdated < 2000)return;
             Button playPause = this.trackManager.getPlayer().isPaused() ? this.parseButton("play") : this.parseButton("pause");
             Button stop = this.parseButton("stop");
             Button autoplay = this.trackManager.isAutoPlay() ? this.parseButton("autoplay_on") : this.parseButton("autoplay_off");
