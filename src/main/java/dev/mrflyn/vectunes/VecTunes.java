@@ -19,6 +19,9 @@ import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceMan
 import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.clients.AndroidTestsuite;
+import dev.lavalink.youtube.clients.Music;
+import dev.lavalink.youtube.clients.Web;
 import dev.lavalink.youtube.clients.skeleton.Client;
 import dev.mrflyn.vectunes.searchmanagers.SpotifySearchManager;
 import dev.mrflyn.vectunes.searchmanagers.YouTubeSearchManager;
@@ -101,8 +104,10 @@ public class VecTunes {
         playerManager = new DefaultAudioPlayerManager();
         playerManager.getConfiguration().setResamplingQuality(AudioConfiguration.ResamplingQuality.HIGH);
 
-        // same as the 'common' module but there are additional clients that provide video thumbnails in the returned metadata.
-        YoutubeAudioSourceManager ytSourceManager = new dev.lavalink.youtube.YoutubeAudioSourceManager();
+        YoutubeAudioSourceManager youtube = new YoutubeAudioSourceManager();
+// Optionally, you may instantiate the source with a custom options, such as toggling use of searching, and clients.
+        YoutubeAudioSourceManager ytSourceManager =
+                new YoutubeAudioSourceManager(/*allowSearch:*/ true, new Music(), new Web(), new AndroidTestsuite());
         playerManager.registerSourceManager(ytSourceManager);
         playerManager.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
         playerManager.registerSourceManager(new BandcampAudioSourceManager());

@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b5f02083-233f-4a66-bbfd-e315932b3519" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/GUIManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/searchmanagers/SpotifySearchManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mrflyn/vectunes/VecTunes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +182,10 @@
       <workItem from="1722631010728" duration="37000" />
       <workItem from="1722631056669" duration="7275000" />
       <workItem from="1722638510702" duration="555000" />
-      <workItem from="1722639139283" duration="80000" />
+      <workItem from="1722639139283" duration="163000" />
+      <workItem from="1722693290087" duration="284000" />
+      <workItem from="1723051991723" duration="521000" />
+      <workItem from="1723140803371" duration="149000" />
     </task>
     <servers />
   </component>
